@@ -71,7 +71,7 @@ public class User {
         this.tasklist = tasklist;
     }
 
-    public void assignTaks(Task task)
+    public void assignTask(Task task)
     {
         tasklist.add(task);
     }
