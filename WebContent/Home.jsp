@@ -9,10 +9,27 @@
 <%@ page import="objects.User" %>
 
 <%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Map" %>
+<%@page import="java.util.HashMap" %>
+<%@page import="java.util.Iterator" %>
 
 <% 
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
+	Map<String, String> groupTasks = null; 
+	if (group != null) {
+		ArrayList<User> groupUsers = group.getUsers();
+		groupTasks = new HashMap<String, String>();
+		
+		// Fill map with group's tasks -- each task maps to a user 
+		for (int i = 0; i < groupUsers.size(); i++) {
+			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
+			for (int j = 0; j < userTasks.size(); j++) {
+				System.out.println(groupUsers.get(i).getName());
+				groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+			}
+		}
+	}
 %> 
 
 <!DOCTYPE html>
@@ -77,22 +94,16 @@
 	      </tr>
 	    </thead>
 		    <tbody> 
+		    <%  if (user != null ) { for (int i = 0; i < user.getTasklist().size(); i++) { %>
 	    		 	<tr>
-			        <td> Clean Dishes</td>
+			        <td> <%= user.getTasklist().get(i).getName() %></td>
 			        <td> 
 				       <form action="completeTask">
 					  <input id="taskButton" type="radio" name="task">
 						</form>
 					</td>
 		      	</tr>
-		      	<tr>
-			        <td> Sweep Living Room </td>
-			        <td> 
-				       <form action="completeTask">
-					  <input id="taskButton" type="radio" name="task">
-						</form>
-					</td>
-		      	</tr>
+		      <% }  }%> <!-- End of loop through User tasks -->
 		    </tbody>
 	  </table>
 	  </section>
@@ -106,14 +117,16 @@
 	      </tr>
 	    </thead>
 		    <tbody> 
+		    		<% if (groupTasks != null) { Iterator it = groupTasks.entrySet().iterator(); 
+		    		while (it.hasNext()) {
+		    			Map.Entry pair = (Map.Entry)it.next();
+		    		%>
 	    		 	<tr>
-			        <td> Clean Dishes</td>
-			        <td> Natalie </td>
+			        <td> <%= pair.getKey() %></td>
+			        <td> <%= pair.getValue() %> </td>
 		      	</tr>
-		      	<tr>
-			        <td> Sweep Living Room </td>
-			        <td> Isabelle </td>
-		      	</tr>
+		      	<% } %> <!-- Loop through map -->
+		    			<% }%> <!-- if statement -->
 		    </tbody>
 	  </table>
 	  </section>
@@ -131,3 +144,5 @@
 	<script> src="js/script.js" </script>
 	</body>
 </html>
+
+
