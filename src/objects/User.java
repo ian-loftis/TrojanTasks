@@ -10,7 +10,7 @@ public class User {
     private String email;
     private String password;
     private String image;
-    private ArrayList<Task> tasklist;
+    private ArrayList<Task> tasklist = new ArrayList<Task>();
 
     void joinGroup (int groupID) {}
     void addTask (Task task) {}

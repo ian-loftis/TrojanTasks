@@ -163,6 +163,9 @@ public class DBManager {
         @SuppressWarnings("unchecked")
 		List<Document> tasks = (List<Document>)d.get("tasks");
         for(Document task : tasks){
+        	System.out.println(task.getString("name"));
+        	System.out.println(task.getString("description"));
+        	System.out.println(task.getString("_id"));
         	result.getTasklist().add(new Task(task.getString("name"),task.getString("description")
                     ,task.get("_id").toString()));
         }

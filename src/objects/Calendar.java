@@ -6,7 +6,7 @@ public class Calendar {
     private String month;
     private String week;
     private String groupId;
-    private ArrayList<Day> days;
+    private ArrayList<Day> days = new ArrayList<Day>();
 
     public void addEvent(Event e, int day){
         days.get(day).insertEvent(e);

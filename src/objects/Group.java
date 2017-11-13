@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Group {
 
     private String groupID;
-    private ArrayList<User> users;
-    private ArrayList<TaskList> lists;
-    private ArrayList<Calendar> calendars;
+    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<TaskList> lists = new ArrayList<TaskList>();
+    private ArrayList<Calendar> calendars = new ArrayList<Calendar>();
     private String name;
     
     

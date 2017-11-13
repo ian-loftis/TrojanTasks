@@ -6,7 +6,7 @@ public class Event {
     private String name;
     private String id;
     private String type;
-    private ArrayList<String> userInvolved;
+    private ArrayList<String> userInvolved = new ArrayList<String>();
     private String description;
     private Time time;
     private String creator;

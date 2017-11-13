@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TaskList {
 
     private String name;
-    private ArrayList<String> items;
+    private ArrayList<String> items = new ArrayList<String>();
     private String type;
     
     

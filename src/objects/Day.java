@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Day {
     private String day;
-    private ArrayList<Event> events;
+    private ArrayList<Event> events = new ArrayList<Event>();
 
     public void insertEvent(Event e){
         Time time = e.getTime();
