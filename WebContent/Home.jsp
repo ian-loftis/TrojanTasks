@@ -2,34 +2,79 @@
 <%@ page import="objects.Day" %>
 <%@ page import="objects.Event" %>
 <%@ page import="objects.Group" %>
-<%@ page import="objects.List" %>
 <%@ page import="objects.Task" %>
 <%@ page import="objects.TaskManager" %>
 <%@ page import="objects.Time" %>
 <%@ page import="objects.User" %>
-
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Map" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="java.util.Iterator" %>
 
 <% 
-	User user = (User)session.getAttribute("User");
+	//User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
-	Map<String, String> groupTasks = null; 
+	//Map<String, String> groupTasks = null; 
 	if (group != null) {
 		ArrayList<User> groupUsers = group.getUsers();
-		groupTasks = new HashMap<String, String>();
+		//groupTasks = new HashMap<String, String>();
 		
 		// Fill map with group's tasks -- each task maps to a user 
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
-				System.out.println(groupUsers.get(i).getName());
-				groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+				//groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
 			}
 		}
 	}
+	
+	Group myGroup = new Group();
+	ArrayList<User> myGroupUsers = new ArrayList<User>();
+	myGroup.setUsers(myGroupUsers);
+	
+	User user = new User();
+	user.setName("nat");
+	User isa = new User();
+	isa.setName("isa");
+	
+	Task task1 = new Task();
+	task1.setName("task 1");
+	task1.setCompleted(true);
+	ArrayList<Task> natsList = new ArrayList<Task>();
+	user.setTasklist(natsList);
+	user.assignTask(task1);
+	
+	
+	
+	Task task2 = new Task();
+	task2.setName("task 2");
+	ArrayList<Task> isaList = new ArrayList<Task>();
+	isa.setTasklist(isaList);
+	isa.assignTask(task2);
+	user.assignTask(task2);
+	
+	
+	myGroup.addUser(user);
+	myGroup.addUser(isa);
+	
+	ArrayList<User> groupUsers = myGroup.getUsers();
+	Map<String, String> groupTasks = new HashMap<String, String>();
+	Map<String, String> completeGroupTasks = new HashMap<String, String>();
+	
+	
+	
+	for (int i = 0; i < groupUsers.size(); i++) {
+		ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
+		for (int j = 0; j < userTasks.size(); j++) {
+			if (userTasks.get(j).getCompleted() == true) {
+				completeGroupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+			}
+			else {
+				groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+			}	
+		}
+	}
+
 %> 
 
 <!DOCTYPE html>
@@ -90,20 +135,41 @@
 	    <thead>
 	      <tr>
 	        <th>Task</th>
-	        <th>Complete?</th>
+	        <th> </th>
 	      </tr>
 	    </thead>
 		    <tbody> 
-		    <%  if (user != null ) { for (int i = 0; i < user.getTasklist().size(); i++) { %>
+		    <%  
+		    ArrayList<Task> completeTasks = new ArrayList<>();
+		    if (user != null ) { 
+		    		for (int i = 0; i < user.getTasklist().size(); i++) { 
+		    %>
 	    		 	<tr>
-			        <td> <%= user.getTasklist().get(i).getName() %></td>
-			        <td> 
-				       <form action="completeTask">
-					  <input id="taskButton" type="radio" name="task">
-						</form>
-					</td>
+	    		 		<% 
+	    		 			// Check if task is complete 
+	    		 			if (user.getTasklist().get(i).getCompleted() == true) {
+	    		 				// If complete, add to completed task array
+	    		 				completeTasks.add(user.getTasklist().get(i));
+	    		 			}
+	    		 			else {
+	    		 				// If not complete, print with button 
+	    		 				%><td> <%= user.getTasklist().get(i).getName() %></td> <% 
+	    		 						%>
+	    				        <td> 
+	    					       <form action="completeTask">
+	    						  <input id="taskButton" type="radio" name="task">
+	    							</form>
+	    						</td>
+	    		 			<% } %> 
 		      	</tr>
-		      <% }  }%> <!-- End of loop through User tasks -->
+		      <% } %> <!-- End of loop through User tasks -->
+		      <% for (int j = 0; j < completeTasks.size(); j++) { %>
+		      	<tr> 
+		      		<td> <%= completeTasks.get(j).getName() %> </td>
+		      		<td> Complete </td>
+		      	</tr>
+		      <% } %> <!-- End of loop through complete User tasks -->
+	    		<% }%> <!-- Close if statement -->
 		    </tbody>
 	  </table>
 	  </section>
@@ -114,6 +180,7 @@
 	      <tr>
 	        <th>Task</th>
 	        <th>Assigned To: </th>
+	        <th>Complete? </th>
 	      </tr>
 	    </thead>
 		    <tbody> 
@@ -124,9 +191,22 @@
 	    		 	<tr>
 			        <td> <%= pair.getKey() %></td>
 			        <td> <%= pair.getValue() %> </td>
+			        <td> No </td>
 		      	</tr>
 		      	<% } %> <!-- Loop through map -->
-		    			<% }%> <!-- if statement -->
+		    	<% }%> <!-- if statement -->	
+	    			<% if (completeGroupTasks != null) { Iterator it = completeGroupTasks.entrySet().iterator(); 
+	    			while (it.hasNext()) {
+	    				Map.Entry pair = (Map.Entry)it.next();
+	    			%>
+    		 		<tr>
+			        <td> <%= pair.getKey() %></td>
+			        <td> <%= pair.getValue() %> </td>
+			        <td> Yes </td>
+	      		</tr>
+	      		<% } %> <!-- Loop through map -->
+	    		<% }%> <!-- if statement -->
+	    		
 		    </tbody>
 	  </table>
 	  </section>
