@@ -12,66 +12,24 @@
 <%@page import="java.util.Iterator" %>
 
 <% 
-	//User user = (User)session.getAttribute("User");
+	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
-	//Map<String, String> groupTasks = null; 
+	Map<String, String> groupTasks = null; 
+	Map<String, String> completeGroupTasks = null; 
 	if (group != null) {
 		ArrayList<User> groupUsers = group.getUsers();
-		//groupTasks = new HashMap<String, String>();
+		groupTasks = new HashMap<String, String>();
 		
 		// Fill map with group's tasks -- each task maps to a user 
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
-				//groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+				if (userTasks.get(j).getCompleted() == true) { 
+					completeGroupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+				} else {
+					groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
+				}
 			}
-		}
-	}
-	
-	Group myGroup = new Group();
-	ArrayList<User> myGroupUsers = new ArrayList<User>();
-	myGroup.setUsers(myGroupUsers);
-	
-	User user = new User();
-	user.setName("nat");
-	User isa = new User();
-	isa.setName("isa");
-	
-	Task task1 = new Task();
-	task1.setName("task 1");
-	task1.setCompleted(true);
-	ArrayList<Task> natsList = new ArrayList<Task>();
-	user.setTasklist(natsList);
-	user.assignTask(task1);
-	
-	
-	
-	Task task2 = new Task();
-	task2.setName("task 2");
-	ArrayList<Task> isaList = new ArrayList<Task>();
-	isa.setTasklist(isaList);
-	isa.assignTask(task2);
-	user.assignTask(task2);
-	
-	
-	myGroup.addUser(user);
-	myGroup.addUser(isa);
-	
-	ArrayList<User> groupUsers = myGroup.getUsers();
-	Map<String, String> groupTasks = new HashMap<String, String>();
-	Map<String, String> completeGroupTasks = new HashMap<String, String>();
-	
-	
-	
-	for (int i = 0; i < groupUsers.size(); i++) {
-		ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
-		for (int j = 0; j < userTasks.size(); j++) {
-			if (userTasks.get(j).getCompleted() == true) {
-				completeGroupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
-			}
-			else {
-				groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
-			}	
 		}
 	}
 
