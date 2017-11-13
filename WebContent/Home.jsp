@@ -1,3 +1,20 @@
+<%@ page import="objects.Calendar" %>
+<%@ page import="objects.Day" %>
+<%@ page import="objects.Event" %>
+<%@ page import="objects.Group" %>
+<%@ page import="objects.List" %>
+<%@ page import="objects.Task" %>
+<%@ page import="objects.TaskManager" %>
+<%@ page import="objects.Time" %>
+<%@ page import="objects.User" %>
+
+<%@page import="java.util.ArrayList" %>
+
+<% 
+	User user = (User)session.getAttribute("User");
+	Group group = (Group)session.getAttribute("Group");
+%> 
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
@@ -47,29 +64,59 @@
         			</ul>
 	        	</div>
   		</nav>
+  	</div>
   		
-  		<div class="row">
-  			<section class="col-md-6">
-  				<h2> Your Tasks </h2>
-  				<ul class="list-group"> 
-  					<li class="list-group-item"> Task 1 
-	  					<span class="radio"> 
-	  						<label><input type="radio" name="optradio">Complete</label>
-	  					</span>
-  					</li>
-  					<li class="list-group-item"> Task 2 
-	  					<span class="radio"> 
-	  						<label><input type="radio" name="optradio">Complete</label>
-	  					</span>
-  					</li>
-  					<li class="list-group-item"> Task 3 
-	  					<span class="radio"> 
-	  						<label><input type="radio" name="optradio">Complete</label>
-	  					</span>
-  					</li>
-  				</ul>
-  			</section>
-  		</div>
+	<div class="container">
+		<section class="col-md-6"> 
+	  <h2>Your Tasks</h2>
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Task</th>
+	        <th>Complete?</th>
+	      </tr>
+	    </thead>
+		    <tbody> 
+	    		 	<tr>
+			        <td> Clean Dishes</td>
+			        <td> 
+				       <form action="completeTask">
+					  <input id="taskButton" type="radio" name="task">
+						</form>
+					</td>
+		      	</tr>
+		      	<tr>
+			        <td> Sweep Living Room </td>
+			        <td> 
+				       <form action="completeTask">
+					  <input id="taskButton" type="radio" name="task">
+						</form>
+					</td>
+		      	</tr>
+		    </tbody>
+	  </table>
+	  </section>
+	  <section class="col-md-6"> 
+	  <h2>Group Tasks</h2>
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Task</th>
+	        <th>Assigned To: </th>
+	      </tr>
+	    </thead>
+		    <tbody> 
+	    		 	<tr>
+			        <td> Clean Dishes</td>
+			        <td> Natalie </td>
+		      	</tr>
+		      	<tr>
+			        <td> Sweep Living Room </td>
+			        <td> Isabelle </td>
+		      	</tr>
+		    </tbody>
+	  </table>
+	  </section>
 	</div>
 
 	<!-- FOOTER SECTION - Before closing </body> tag -->
