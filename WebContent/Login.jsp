@@ -62,25 +62,20 @@
 				<label for="pwd"><b>Password</b></label>
 				<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
-					<input type="submit" value="Login">
+					<input type="submit" value="Log In">
+					<button id="create" value="Create Account" onclick="">Create Account</button>
 				</div> 
 			</form>
 		</div> 
+		
 	  </section>
 	  <section class="col-md-6"> 
 	  	<div id="taskassign">
-	  		<button onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
+	  		<button id="task" onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
 	  		Click here to randomly assign tasks without logging in or creating an account.
-
 	  	</div>
 	  </section>
 	</div>
 	    
-	    
-	    
-	    
-	    
-	    
-		
 	</body>
 </html>
