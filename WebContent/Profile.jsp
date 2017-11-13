@@ -2,7 +2,6 @@
 <%@ page import="objects.Day" %>
 <%@ page import="objects.Event" %>
 <%@ page import="objects.Group" %>
-<%@ page import="objects.List" %>
 <%@ page import="objects.Task" %>
 <%@ page import="objects.TaskManager" %>
 <%@ page import="objects.Time" %>
