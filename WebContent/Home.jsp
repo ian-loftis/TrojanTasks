@@ -47,8 +47,31 @@
         			</ul>
 	        	</div>
   		</nav>
+  		
+  		<div class="row">
+  			<section class="col-md-6">
+  				<h2> Your Tasks </h2>
+  				<ul class="list-group"> 
+  					<li class="list-group-item"> Task 1 
+	  					<span class="radio"> 
+	  						<label><input type="radio" name="optradio">Complete</label>
+	  					</span>
+  					</li>
+  					<li class="list-group-item"> Task 2 
+	  					<span class="radio"> 
+	  						<label><input type="radio" name="optradio">Complete</label>
+	  					</span>
+  					</li>
+  					<li class="list-group-item"> Task 3 
+	  					<span class="radio"> 
+	  						<label><input type="radio" name="optradio">Complete</label>
+	  					</span>
+  					</li>
+  				</ul>
+  			</section>
+  		</div>
 	</div>
-	
+
 	<!-- FOOTER SECTION - Before closing </body> tag -->
 	
 	<!-- jQuery -->
