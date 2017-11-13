@@ -6,7 +6,7 @@ public class Group {
 
     private int groupID;
     private ArrayList<User> users;
-    private ArrayList<List> lists;
+    private ArrayList<TaskList> lists;
     private ArrayList<Calendar> calendars;
 
     void addUser(int id) {}
@@ -26,10 +26,10 @@ public class Group {
     public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
-    public ArrayList<List> getLists() {
+    public ArrayList<TaskList> getLists() {
         return lists;
     }
-    public void setLists(ArrayList<List> lists) {
+    public void setLists(ArrayList<TaskList> lists) {
         this.lists = lists;
     }
     public ArrayList<Calendar> getCalendars() {

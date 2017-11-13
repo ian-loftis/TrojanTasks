@@ -2,7 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
-public class List {
+public class TaskList {
 
     private String name;
     private ArrayList<String> items;

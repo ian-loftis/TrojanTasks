@@ -5,7 +5,21 @@ public class Task {
     String name;
     String description;
     Integer ID;
-
+    boolean completed;
+    
+    public Task()
+    {
+    		
+    }
+    
+    public Task(String name, String description, Integer ID)
+    {
+    		this.name=  name;
+    		this.description = description;
+    		this.ID = ID;
+    		this.completed = false;
+    }
+    
     public String getName() {
         return name;
     }
@@ -28,5 +42,15 @@ public class Task {
 
     public void setID(Integer ID) {
         this.ID = ID;
+    }
+    
+    public void setCompleted(boolean completed)
+    {
+    		this.completed = completed;
+    }
+    
+    public boolean getCompleted()
+    {
+    		return completed;
     }
 }
