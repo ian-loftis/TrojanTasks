@@ -6,8 +6,17 @@ public class TaskList {
 
     private String name;
     private ArrayList<String> items;
+    private String type;
+    
+    
 
-    void addItem(String item){}
+    public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	void addItem(String item){}
     void crossOff(String item) {}
 
     public String getName() {

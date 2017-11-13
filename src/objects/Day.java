@@ -16,7 +16,7 @@ public class Day {
         events.add(index,e);
     }
 
-    public void removeEvent(int id){
+    public void removeEvent(String id){
         for(int i = 0; i < events.size(); ++i){
             if(events.get(i).getId() == id){
                 events.remove(i);
