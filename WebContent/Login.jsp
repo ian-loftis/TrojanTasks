@@ -53,17 +53,17 @@
 	    
 	<div class="container">
 	  <section class="col-md-6"> 
-	  	<span id="status"></span>
+	  	<!-- <span id="status"></span> -->
 		<div id="login">
 			<h1>Login</h1>
-			<form name="myform" method="post" action="Home.jsp" onsubmit="return validate()">
+			<form name="myform" method="POST" action="Home.jsp" onsubmit="return validate()">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" name="uname" placeholder="Enter Username">
 				<label for="pwd"><b>Password</b></label>
 				<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
 					<input type="submit" value="Log In">
-					<button id="create" value="Create Account" onclick="">Create Account</button>
+					<button id="create" value="Create Account" >Create Account</button>
 				</div> 
 			</form>
 		</div> 
@@ -76,6 +76,6 @@
 	  	</div>
 	  </section>
 	</div>
-	    
+	<span id="status"></span>
 	</body>
 </html>
