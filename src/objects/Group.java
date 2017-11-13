@@ -2,7 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 
-public class Group1 {
+public class Group {
 
     private int groupID;
     private ArrayList<User> users;
