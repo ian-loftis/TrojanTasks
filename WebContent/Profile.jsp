@@ -1,3 +1,20 @@
+<%@ page import="objects.Calendar" %>
+<%@ page import="objects.Day" %>
+<%@ page import="objects.Event" %>
+<%@ page import="objects.Group" %>
+<%@ page import="objects.List" %>
+<%@ page import="objects.Task" %>
+<%@ page import="objects.TaskManager" %>
+<%@ page import="objects.Time" %>
+<%@ page import="objects.User" %>
+
+<%@page import="java.util.ArrayList" %>
+
+<% 
+	User user = (User)session.getAttribute("User");
+	Group group = (Group)session.getAttribute("Group");
+%> 
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
@@ -48,6 +65,15 @@
 	        	</div>
   		</nav>
 	</div>
+	<div class="card">
+		<img src="<%=user.getImage()%>" alt="<%=user.getName()%>" style="width:100%">
+		<h1><%=user.getName() %></h1>
+		<p>Email: <%=user.getEmail() %></p>
+	</div>
+	
+	
+	
+	
 	
 	<!-- FOOTER SECTION - Before closing </body> tag -->
 	

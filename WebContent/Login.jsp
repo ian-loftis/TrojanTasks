@@ -6,6 +6,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Log In</title>
 		<link rel="stylesheet" href="css/login.css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- Viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<!-- Optional Theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<script>
 			function validate(){
 				var access = false;
@@ -35,7 +42,18 @@
 		</script>
 	</head>
 	<body>
-		<span id="status"></span>
+		<div class="row">
+	        <section class="col-md-12">
+	            <h1>
+				  <span class="redh1">Trojan</span>
+				  <span class="blackh1">Tasks!</span>
+				</h1>
+	        </section>
+	    </div>
+	    
+	<div class="container">
+	  <section class="col-md-6"> 
+	  	<span id="status"></span>
 		<div id="login">
 			<h1>Login</h1>
 			<form name="myform" method="post" action="Home.jsp" onsubmit="return validate()">
@@ -48,5 +66,21 @@
 				</div> 
 			</form>
 		</div> 
+	  </section>
+	  <section class="col-md-6"> 
+	  	<div id="taskassign">
+	  		<button onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
+	  		Click here to randomly assign tasks without logging in or creating an account.
+
+	  	</div>
+	  </section>
+	</div>
+	    
+	    
+	    
+	    
+	    
+	    
+		
 	</body>
 </html>
