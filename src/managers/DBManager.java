@@ -3,7 +3,10 @@ package managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.BsonArray;
+import org.bson.BsonString;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -58,6 +61,24 @@ public class DBManager {
             }
         }
         return null;
+    }
+    
+    public void addListToGroup(String groupId, TaskList list) {
+    	BsonArray items = new BsonArray();
+    	for(String s : list.getItems()) {
+    		items.add(new BsonString(s));
+    	}
+    	Document listDoc = new Document("name",list.getName())
+    			.append("items", items);
+    	groupCollection.updateOne(
+    			new Document("_id",new ObjectId(groupId))
+    			, new Document("$push",new Document("lists",listDoc)));
+    }
+    
+    public void removeListFromGroup(String groupId, String listId) {    	
+    	groupCollection.updateOne(
+    			Filters.eq("_id", new ObjectId(groupId)), 
+    			new Document("$pull",new Document("lists",Filters.eq("_id",new ObjectId(listId)))));
     }
 
     @SuppressWarnings("unchecked")
@@ -142,6 +163,7 @@ public class DBManager {
             result.setName(d.getString("name"));
             result.setType(d.getString("type"));
             result.setItems((ArrayList<String>)d.get("items"));
+            result.setID(d.get("_id").toString());
             //result.set
             return result;
         }
