@@ -28,6 +28,7 @@
 	// Test code 
 	TaskList test1 = new TaskList();
 	test1.setName("list 1");
+	test1.setID(1);
 	test1.addItem("bananas");
 	test1.addItem("apples");
 	test1.addItem("pears");
@@ -35,12 +36,14 @@
 	
 	TaskList test2 = new TaskList();
 	test2.setName("list 2");
+	test2.setID(2);
 	test2.addItem("broom");
 	test2.addItem("clorox");
 	test2.addItem("detergent");
 	
 	TaskList test3 = new TaskList();
 	test3.setName("list 3");
+	test3.setID(3);
 	test3.addItem("natty");
 	test3.addItem("svedka");
 	test3.addItem("smirnoff");
@@ -117,11 +120,15 @@
 	  	<table class="table">
 	    <thead>
 	      <tr>
+	      	<th> List  </th>
+	        <th>  </th>
+	        <th>  </th>
 	      </tr>
 	    </thead>
 		    <tbody> 
 			<% for (int i = 0; i < list.size(); i++) { %>		      	
 		      	<tr> 
+		      		<td> 
 		      		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo<%=i%>"> <%= list.get(i).getName() %></button>
 		      		<% ArrayList<String> items = list.get(i).getItems(); %>
 				    <div id="demo<%=i%>" class="collapse">
@@ -129,19 +136,23 @@
 					      <li><a href="#"><%=items.get(j) %></a></li> 
 				   <% } %>
 				   </div>
-				   <br> 
+				   <td> 
+				   <td> <button type="button" onClick="removeList(<%=list.get(i).getID()%>)"> Remove </button> </td>
 		      	</tr>
-		      	</br> 
 		      <% } %>
 		    </tbody>
 	  </table>
 	  </section>
+
+	  
 	  <section class="col-md-3">
 		  <h2>Add List</h2>
 		  <br> 
-		  <input type="text" placeholder="List Name"> </br> </br> 
-		  <input id="item" type="text" placeholder="Item Name"> 
-		  <br> <br> 
+		  <form name="listForm">
+			  <input name="name" type="text" placeholder="List Name"> </br> </br> 
+			  <input id="item" type="text" placeholder="Item Name"> 
+		  </form>
+		  <br>
 		  <button id="addBtn">Add Item</button>
 		  <button id="clearBtn">Clear</button> <br> <br> 
 		  <button id="addListBtn" onClick="addList()">Create List</button>
@@ -172,9 +183,29 @@
 		
 		function addList() {
 			
+			var itemString = "";
+			var add = "add";
 			for (i = 0; i < items.length; i++) { 
-			    console.log(items[i]);
-			}
+				itemString+= items[i];
+				if (i < items.length-1) {
+					itemString+= ",";	
+				}
+			}	
+			console.log(itemString);
+			
+			xhttp.open("GET", "ListServlet?name=" + document.listForm.name.value + "&items=" + itemString + "&req=" + add, false);
+   	 	 	xhttp.send();
+		}
+		
+		function removeList(listName) {
+			
+			console.log(listName);
+			
+			var itemString = "";
+			var remove = "remove";
+			
+			xhttp.open("GET", "ListServlet?ID=" + listName + "&items=" + itemString + "&req=" + remove, false);
+   	 	 	xhttp.send();
 		}
 	</script>
 
