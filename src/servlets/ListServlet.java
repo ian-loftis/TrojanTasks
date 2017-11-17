@@ -33,24 +33,30 @@ public class ListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("hi");
 		String req = request.getParameter("req");
 		DBManager dbManager = DBManager.getInstance();
 		
 		if(req.equals("add")) {
 			String name = request.getParameter("name");
 			String items = request.getParameter("items");
+			System.out.println(items);
 			ArrayList<String> itemsArray = new ArrayList<String>();
-			int last = 0;
+			int last = -1;
 			for(int i = 0; i < items.length(); ++i) {
 				if(items.charAt(i) == ',') {
 					if(i != last + 1) {
 						String item = items.substring(last + 1, i);
+						itemsArray.add(item);
+						System.out.println(item);
 						last = i;
 					}else {
 						last++;
 					}
 				}
 			}
+			System.out.println(!name.isEmpty());
+			System.out.println();
 			
 			if(!name.isEmpty() && itemsArray.size() != 0) {
 				TaskList list = new TaskList();
@@ -58,14 +64,16 @@ public class ListServlet extends HttpServlet {
 				list.setItems(itemsArray);
 				Group g = (Group)request.getSession().getAttribute("Group");
 				
-				g.getLists().add(list);
 				
+				dbManager.addListToGroup(g.getGroupID(), list);
+				g.getLists().add(list);
 				printstuff(g.getLists(),response.getWriter());
 			}else {
 				response.getWriter().println("0");
 			}
 		}else if(req.equals("remove")){
 			String ID = request.getParameter("ID");
+			System.out.println(ID);
 			if(ID.isEmpty()) {
 				response.getWriter().println("0");
 			}else {
@@ -94,16 +102,17 @@ public class ListServlet extends HttpServlet {
 			pw.println(String.format("<button type=\"button\" class=\"btn btn-info\""
 					+ " data-toggle=\"collapse\" data-target=\"#demo%d\"> %s</button>", i,lists.get(i).getName()));
 			
-			pw.println("<div id=\"demo<%=i%>\" class=\"collapse\">");
+			pw.println(String.format("<div id=\"demo%d\" class=\"collapse\">", i));
 			
 			ArrayList<String> stuff = lists.get(i).getItems();
+			
 			for(int j = 0; j < stuff.size(); ++j) {
 				pw.println(String.format(" <li><a href=\"#\">%s</a></li> ", stuff.get(j)));
 			}
 			
 			
 			pw.println(String.format("	   <td> \r\n" + 
-					"		   <td> <button type=\"button\" onClick=\"removeList(%s)\"> Remove </button> </td>\r\n" + 
+					"		   <td> <button type=\"button\" onClick=\"removeList('%s')\"> Remove </button> </td>\r\n" + 
 					"      	</tr>", lists.get(i).getID()));
 		}
 	}

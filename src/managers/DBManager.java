@@ -120,6 +120,7 @@ public class DBManager {
     	}
     	
     	ObjectId oId = new ObjectId();
+    	list.setID(oId.toString());
     	Document listDoc = new Document("name",list.getName())
     			.append("items", items)
     			.append("_id", oId);
@@ -132,10 +133,14 @@ public class DBManager {
     	return oId.toString();
     }
     
-    public void removeListFromGroup(String groupId, String listId) {    	
+    public void removeListFromGroup(String groupId, String listId) {
+    	if(!ObjectId.isValid(groupId) || !ObjectId.isValid(listId)) {
+    		return;
+    	}
+    	
     	groupCollection.updateOne(
-    			Filters.eq("_id", new ObjectId(groupId)), 
-    			new Document("$pull",new Document("lists",Filters.eq("_id",new ObjectId(listId)))));
+    			new Document("_id",new ObjectId(groupId)), 
+    			new Document("$pull",new Document("lists",new Document("_id",new ObjectId(listId)))));
     }
 
     @SuppressWarnings("unchecked")

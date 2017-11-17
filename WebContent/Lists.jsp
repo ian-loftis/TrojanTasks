@@ -109,8 +109,10 @@
 						      <li><a href="#"><%=items.get(j) %></a></li> 
 					   <% } %>
 					   </div>
-					   <td> 
-					   <td> <button id="listBtnRemove<%=list.get(i).getID()%>" type="button" onClick="removeList(<%=list.get(i).getID()%>)"> Remove </button> </td>
+					   <td> <% 
+					   String x = list.get(i).getID();
+					   System.out.println("hiiiii" + x);%>
+					   <td> <button id="listBtnRemove<%=list.get(i).getID()%>" type="button" onClick="removeList('<%=x%>')"> Remove </button> </td>
 			      	</tr>
 			      <% } %>
 		    </tbody>
@@ -160,9 +162,8 @@
 			var add = "add";
 			for (i = 0; i < items.length; i++) { 
 				itemString+= items[i];
-				if (i < items.length-1) {
-					itemString+= ",";	
-				}
+				itemString+= ",";	
+				
 			}	
 			
 			var xhttp = new XMLHttpRequest();
@@ -184,10 +185,7 @@
 			var itemString = "";
 			var remove = "remove";
 			
-			var element = document.getElementById("ListRow" + listID);
- 			element.outerHTML = "";
- 			delete element;
-			
+		
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ListServlet?ID=" + listID + "&items=" + itemString + "&req=" + remove, false);
    	 	 	xhttp.send();
@@ -196,9 +194,7 @@
 	 		if (response == "0") {
 	 			// fail
 	 		} else {
-	 			var element = document.getElementById("ListRow" + listID);
-	 			element.outerHTML = "";
-	 			delete element;
+	 			document.getElementById("listNames").innerHTML = response;
 	 		}
 		}
 	</script>
