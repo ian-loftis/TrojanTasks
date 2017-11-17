@@ -191,20 +191,23 @@
 					itemString+= ",";	
 				}
 			}	
-			console.log(itemString);
+			console.log("List name: " + document.listForm.name.value);
+			console.log("Item string: " + itemString);
 			
+			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ListServlet?name=" + document.listForm.name.value + "&items=" + itemString + "&req=" + add, false);
    	 	 	xhttp.send();
 		}
 		
-		function removeList(listName) {
+		function removeList(listID) {
 			
-			console.log(listName);
+			console.log("List ID: " + listID);
 			
 			var itemString = "";
 			var remove = "remove";
 			
-			xhttp.open("GET", "ListServlet?ID=" + listName + "&items=" + itemString + "&req=" + remove, false);
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "ListServlet?ID=" + listID + "&items=" + itemString + "&req=" + remove, false);
    	 	 	xhttp.send();
 		}
 	</script>
