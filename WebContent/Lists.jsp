@@ -21,10 +21,39 @@
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
 	
-	ArrayList<TaskList> list = new ArrayList<TaskList>();
+	//ArrayList<TaskList> list = new ArrayList<TaskList>();
 	if (group != null) {
-		list = group.getLists();
+		//list = group.getLists();
 	}
+	
+	// Test code 
+		TaskList test1 = new TaskList();
+		test1.setName("list 1");
+		test1.setID("1");
+		test1.addItem("bananas");
+		test1.addItem("apples");
+		test1.addItem("pears");
+		
+		
+		TaskList test2 = new TaskList();
+		test2.setName("list 2");
+		test2.setID("2");
+		test2.addItem("broom");
+		test2.addItem("clorox");
+		test2.addItem("detergent");
+		
+		TaskList test3 = new TaskList();
+		test3.setName("list 3");
+		test3.setID("3");
+		test3.addItem("natty");
+		test3.addItem("svedka");
+		test3.addItem("smirnoff");
+		
+		ArrayList<TaskList> list = new ArrayList<TaskList>();
+		list.add(test1);
+		list.add(test2);
+		list.add(test3);
+
 %>
 
 <!DOCTYPE html>
@@ -97,21 +126,21 @@
 	        <th>  </th>
 	      </tr>
 	    </thead>
-		    <tbody> 
-			<% for (int i = 0; i < list.size(); i++) { %>		      	
-		      	<tr> 
-		      		<td> 
-		      		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo<%=i%>"> <%= list.get(i).getName() %></button>
-		      		<% ArrayList<String> items = list.get(i).getItems(); %>
-				    <div id="demo<%=i%>" class="collapse">
-				    <% for (int j = 0; j < items.size(); j++) { %> 
-					      <li><a href="#"><%=items.get(j) %></a></li> 
-				   <% } %>
-				   </div>
-				   <td> 
-				   <td> <button type="button" onClick="removeList(<%=list.get(i).getID()%>)"> Remove </button> </td>
-		      	</tr>
-		      <% } %>
+		    <tbody id="listNames"> 
+				<% for (int i = 0; i < list.size(); i++) { %>	
+			      	<tr id="ListRow<%=list.get(i).getID()%>"> 
+			      		<td> 
+			      		<button id="listBtn<%=list.get(i).getID()%>" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo<%=i%>"> <%= list.get(i).getName() %></button>
+			      		<% ArrayList<String> items = list.get(i).getItems(); %>
+					    <div id="demo<%=i%>" class="collapse">
+					    <% for (int j = 0; j < items.size(); j++) { %> 
+						      <li><a href="#"><%=items.get(j) %></a></li> 
+					   <% } %>
+					   </div>
+					   <td> 
+					   <td> <button id="listBtnRemove<%=list.get(i).getID()%>" type="button" onClick="removeList(<%=list.get(i).getID()%>)"> Remove </button> </td>
+			      	</tr>
+			      <% } %>
 		    </tbody>
 	  </table>
 	  </section>
@@ -163,12 +192,17 @@
 					itemString+= ",";	
 				}
 			}	
-			console.log("List name: " + document.listForm.name.value);
-			console.log("Item string: " + itemString);
 			
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ListServlet?name=" + document.listForm.name.value + "&items=" + itemString + "&req=" + add, false);
    	 	 	xhttp.send();
+   	 	 	
+   	 		var response = xhttp.responseText; 
+   	 		if (response == "0") {
+   	 			// fail
+   	 		} else {
+   	 			document.getElementById("listNames").innerHTML = response;
+   	 		}
 		}
 		
 		function removeList(listID) {
@@ -178,9 +212,22 @@
 			var itemString = "";
 			var remove = "remove";
 			
+			var element = document.getElementById("ListRow" + listID);
+ 			element.outerHTML = "";
+ 			delete element;
+			
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ListServlet?ID=" + listID + "&items=" + itemString + "&req=" + remove, false);
    	 	 	xhttp.send();
+   	 	 	
+   	 		var response = xhttp.responseText; 
+	 		if (response == "0") {
+	 			// fail
+	 		} else {
+	 			var element = document.getElementById("ListRow" + listID);
+	 			element.outerHTML = "";
+	 			delete element;
+	 		}
 		}
 	</script>
 
