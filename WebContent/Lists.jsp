@@ -143,7 +143,8 @@
 		  <input id="item" type="text" placeholder="Item Name"> 
 		  <br> <br> 
 		  <button id="addBtn">Add Item</button>
-		  <button id="clearBtn">Clear</button>
+		  <button id="clearBtn">Clear</button> <br> <br> 
+		  <button id="addListBtn" onClick="addList()">Create List</button>
 	  </section>
 	  <section class="col-md-3">
 	  		<h2> Items Added </h2>
@@ -154,19 +155,27 @@
 	  </section>
 	</div>
 	<script> 
+		var items = [];
 		$(document).ready(function(){
 	        var $appendItemsToList;
 	        $("#addBtn").click(function() {
 	        	 	var bla = $("#item").val();
 	            $("#dialog ul").append(bla);
 	            $("#dialog ul").append("<br>");
+	            items.push(bla);
 	        });
 	        
 	        $("#clearBtn").click(function() {
 	            $( "#dialog ul" ).empty();
         		});
-        
 	    });
+		
+		function addList() {
+			
+			for (i = 0; i < items.length; i++) { 
+			    console.log(items[i]);
+			}
+		}
 	</script>
 
 	
