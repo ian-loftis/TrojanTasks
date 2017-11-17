@@ -6,6 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Log In</title>
 		<link rel="stylesheet" href="css/login.css">
+		<link rel="stylesheet" href="css/styles.css">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- Viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,6 +43,7 @@
 		</script>
 	</head>
 	<body>
+	<div class="services container">
 		<div class="row">
 	        <section class="col-md-12">
 	            <h1>
@@ -55,7 +57,7 @@
 	  <section class="col-md-6"> 
 	  	<!-- <span id="status"></span> -->
 		<div id="login">
-			<h1>Login</h1>
+			<h2>Login</h2>
 			<form name="myform" method="POST" action="Home.jsp" onsubmit="return validate()">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" name="uname" placeholder="Enter Username">
@@ -69,13 +71,19 @@
 		</div> 
 		
 	  </section>
+
+
 	  <section class="col-md-6"> 
-	  	<div id="taskassign">
-	  		<button id="task" onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
-	  		Click here to randomly assign tasks without logging in or creating an account.
-	  	</div>
-	  </section>
+		<div id="taskassign">
+			<form id="task" name="task" method="POST" action="RandomTaskAssigner.jsp">
+				<button id="task" value="Random Task Assigner"> Random Task Assigner </button>
+			</form>
+			Click here to randomly assign tasks without logging in or creating an account.
+		</div>
+		</section>
+	  
 	</div>
 	<span id="status"></span>
+	</div>
 	</body>
 </html>

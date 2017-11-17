@@ -1,9 +1,17 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300,300italic,700,700italic|Nunito:300,400);
 html, body {
 	width: 100%;
 	height: 100%;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	color: #444;
 	-webkit-font-smothing: antialiased; background: #f0f0f0;
+}
+h1 {
+	font-family:"Nunito";
+	font-size:6rem;
+	font-weight:300;
+	letter-spacing:.1rem;
+	text-transform:uppercase
 }
 .redh1 {
   	color: black; 

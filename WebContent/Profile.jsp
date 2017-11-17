@@ -63,7 +63,7 @@
         			</ul>
 	        	</div>
   		</nav>
-	</div>
+
 	<div class="card">
 		<img src="<%=user.getImage()%>" alt="<%=user.getName()%>" style="width:100%">
 		<h1><%=user.getName() %></h1>
@@ -71,7 +71,7 @@
 	</div>
 	
 	
-	
+	</div>
 	
 	
 	<!-- FOOTER SECTION - Before closing </body> tag -->
