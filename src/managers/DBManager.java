@@ -63,21 +63,73 @@ public class DBManager {
         return null;
     }
     
+    public boolean createUser(String name, String email, String password) {
+		if(findById(email,userCollection) != null) {
+			return false;
+		}
+    	userCollection.insertOne(
+				new Document("_id",email)
+				.append("password", password)
+				.append("name", name)
+				.append("groupid", "null"));
+    	
+    	return true;
+		 
+	}
+    
+    public boolean addUserToGroup(String groupid, String userEmail) {
+		if(!ObjectId.isValid(groupid) || findByOId(groupid,groupCollection) == null
+				|| findById(userEmail,userCollection) == null) {
+			return false;
+		}
+		
+		userCollection.updateOne(
+				Filters.eq("_id",userEmail), 
+				new Document("$set",new Document("groupid",groupid)));
+		
+		groupCollection.updateOne(
+				Filters.eq("_id",new ObjectId(groupid)), 
+				new Document("$addToSet",new Document("users",userEmail)));
+		
+		return true;
+	}
+    
+    public boolean addUserToNewGroup(String userEmail,String groupName) {
+		if(findById(userEmail,userCollection).getString("groupid") != "null" || groupName.length() == 0) {
+			return false;
+		}
+		
+		groupCollection.insertOne(new Document("name",groupName)
+				.append("_id", new ObjectId())
+				.append("users", new BsonArray().add(new BsonString(userEmail))));		
+		
+		return true;
+	}
+    
+	public boolean removeGroupFromUser(String userEmail) {
+		//if(findById(userEmail,userCollection) == null
+			//	|| findByOId())
+		
+		return true;
+	}
+    
     public String addListToGroup(String groupId, TaskList list) {
     	BsonArray items = new BsonArray();
     	for(String s : list.getItems()) {
     		items.add(new BsonString(s));
     	}
+    	
+    	ObjectId oId = new ObjectId();
     	Document listDoc = new Document("name",list.getName())
-    			.append("items", items);
+    			.append("items", items)
+    			.append("_id", oId);
+    	
     	groupCollection.updateOne(
     			new Document("_id",new ObjectId(groupId))
     			, new Document("$push",new Document("lists",listDoc)));
     	
-    	Document result = findByOId(groupId,groupCollection);
-    	@SuppressWarnings("unchecked")
-		ArrayList<Document> lists = (ArrayList<Document>)result.get("lists");
-    	return lists.get(lists.size() - 1).get("_id").toString();
+
+    	return oId.toString();
     }
     
     public void removeListFromGroup(String groupId, String listId) {    	
@@ -137,6 +189,9 @@ public class DBManager {
     
     //reuseable helper function for finding documents by Object ID
     private Document findByOId(String id, MongoCollection<Document> collection) {
+    	if(!ObjectId.isValid(id)) {
+    		return null;
+    	}
         return collection.find(Filters.eq("_id",new ObjectId(id))).first();
     }
     
@@ -158,6 +213,9 @@ public class DBManager {
         }
     	return result;
     }
+	
+	
+	
 
 
 }

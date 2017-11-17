@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import managers.DBManager;
 
 /**
- * Servlet implementation class CreateUser
+ * Servlet implementation class ModifyGroup
  */
-@WebServlet("/CreateUser")
-public class CreateUser extends HttpServlet {
+@WebServlet("/ModifyGroup")
+public class ModifyGroup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateUser() {
+    public ModifyGroup() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,13 +29,22 @@ public class CreateUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String type = request.getParameter("req");
+		String userEmail = request.getParameter("email");
 		DBManager dbManager = DBManager.getInstance();
 		
-		String email = request.getParameter("email");
-		String name = request.getParameter("name");
-		String password = request.getParameter("pw");		
-		
-		boolean success = dbManager.createUser(name,email,password);
+		boolean success = false;
+		if(type.equals("join")) {
+			String groupid = request.getParameter("groupid");
+			success = dbManager.addUserToGroup(groupid,userEmail);
+			
+		}else if(type.equals("create")) {
+			String gname = request.getParameter("gname");
+			success = dbManager.addUserToNewGroup(userEmail,gname);
+			
+		}else if(type.equals("leave")) {
+			success = dbManager.removeGroupFromUser(userEmail);
+		}
 		
 		if(success) {
 			response.getWriter().println("1");

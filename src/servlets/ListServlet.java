@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -59,7 +60,7 @@ public class ListServlet extends HttpServlet {
 				
 				g.getLists().add(list);
 				
-				response.getWriter().println(dbManager.addListToGroup(g.getGroupID(),list));
+				printstuff(g.getLists(),response.getWriter());
 			}else {
 				response.getWriter().println("0");
 			}
@@ -76,13 +77,35 @@ public class ListServlet extends HttpServlet {
 					}
 				}
 				dbManager.removeListFromGroup(g.getGroupID(),ID);
-				response.getWriter().println("1");
+				printstuff(g.getLists(),response.getWriter());
+			}	
+		}
+		
+
+		
+
+	
+	}
+	
+	private void printstuff(ArrayList<TaskList> lists, PrintWriter pw) {
+		for(int i = 0; i < lists.size(); ++i) {
+			pw.println("<tr><td>");
+			
+			pw.println(String.format("<button type=\"button\" class=\"btn btn-info\""
+					+ " data-toggle=\"collapse\" data-target=\"#demo%d\"> %s</button>", i,lists.get(i).getName()));
+			
+			pw.println("<div id=\"demo<%=i%>\" class=\"collapse\">");
+			
+			ArrayList<String> stuff = lists.get(i).getItems();
+			for(int j = 0; j < stuff.size(); ++j) {
+				pw.println(String.format(" <li><a href=\"#\">%s</a></li> ", stuff.get(j)));
 			}
 			
 			
+			pw.println(String.format("	   <td> \r\n" + 
+					"		   <td> <button type=\"button\" onClick=\"removeList(%s)\"> Remove </button> </td>\r\n" + 
+					"      	</tr>", lists.get(i).getID()));
 		}
-		
-		
 	}
 
 	/**
