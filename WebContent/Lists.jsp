@@ -78,6 +78,13 @@
 	
 	    <!-- My stylesheet -->
 	    <link rel="stylesheet" href="css/styles.css">
+	    
+	     <!-- Jquery  -->
+	    	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+        
 	    <title>Home</title>
 	</head>
 	<body>
@@ -105,7 +112,7 @@
 	
 	<div class="container">
 		<section class="col-md-6"> 
-	  	<h2>Lists</h2>
+	  	<h2> Current Lists</h2>
 	  	</br> 
 	  	<table class="table">
 	    <thead>
@@ -115,9 +122,9 @@
 		    <tbody> 
 			<% for (int i = 0; i < list.size(); i++) { %>		      	
 		      	<tr> 
-		      		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"> <%= list.get(i).getName() %></button>
+		      		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo<%=i%>"> <%= list.get(i).getName() %></button>
 		      		<% ArrayList<String> items = list.get(i).getItems(); %>
-				    <div id="demo" class="collapse">
+				    <div id="demo<%=i%>" class="collapse">
 				    <% for (int j = 0; j < items.size(); j++) { %> 
 					      <li><a href="#"><%=items.get(j) %></a></li> 
 				   <% } %>
@@ -129,7 +136,38 @@
 		    </tbody>
 	  </table>
 	  </section>
+	  <section class="col-md-3">
+		  <h2>Add List</h2>
+		  <br> 
+		  <input type="text" placeholder="List Name"> </br> </br> 
+		  <input id="item" type="text" placeholder="Item Name"> 
+		  <br> <br> 
+		  <button id="addBtn">Add Item</button>
+		  <button id="clearBtn">Clear</button>
+	  </section>
+	  <section class="col-md-3">
+	  		<h2> Items Added </h2>
+	        <ul id="dialog" title="Add List" class="list-group">
+	            <ul id=listItem>
+	            </ul>     
+	        </ul>
+	  </section>
 	</div>
+	<script> 
+		$(document).ready(function(){
+	        var $appendItemsToList;
+	        $("#addBtn").click(function() {
+	        	 	var bla = $("#item").val();
+	            $("#dialog ul").append(bla);
+	            $("#dialog ul").append("<br>");
+	        });
+	        
+	        $("#clearBtn").click(function() {
+	            $( "#dialog ul" ).empty();
+        		});
+        
+	    });
+	</script>
 
 	
 	<!-- FOOTER SECTION - Before closing </body> tag -->
