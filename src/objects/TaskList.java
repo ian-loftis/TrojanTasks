@@ -4,31 +4,32 @@ import java.util.ArrayList;
 
 public class TaskList {
 
-    private String name;
-    private ArrayList<String> items = new ArrayList<String>();
-    private String type;
-    
-    
+	private String name;
+	private ArrayList<String> items;
 
-    public String getType() {
-		return type;
+	public TaskList() {
+		items = new ArrayList<String>();
 	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	void addItem(String item){}
-    void crossOff(String item) {}
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public ArrayList<String> getItems() {
-        return items;
-    }
-    public void setItems(ArrayList<String> items) {
-        this.items = items;
-    }
-}
+	public void addItem(String item) {
+		items.add(item);
+	}
+
+	public void crossOff(String item) {
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ArrayList<String> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<String> items) {
+		this.items = items;
+	}

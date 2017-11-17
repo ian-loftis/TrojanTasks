@@ -6,6 +6,12 @@
 <%@ page import="objects.TaskManager" %>
 <%@ page import="objects.Time" %>
 <%@ page import="objects.User" %>
+<%@ page import="objects.TaskList" %>
+
+<%@ page import="jsonObjects.UpdateTasksRequest" %>
+<%@ page import="jsonObjects.CalendarUpdateRequest" %>
+<%@ page import="jsonObjects.RequestTask" %>
+
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Map" %>
 <%@page import="java.util.HashMap" %>
@@ -85,6 +91,13 @@
 	        	</div>
   		</nav>
   	</div>
+  	
+  	<script> 
+  		function complete() {
+  			xhttp.open("GET", "updateTasks?searchData=" + document.searchForm.staff.value, false);
+   	 	 	xhttp.send();
+  		}
+  	</script> 
   		
 	<div class="container">
 		<section class="col-md-6"> 
@@ -112,10 +125,10 @@
 	    		 			else {
 	    		 				// If not complete, print with button 
 	    		 				%><td> <%= user.getTasklist().get(i).getName() %></td> <% 
-	    		 						%>
+	    		 				// FIGURE OUT HOW TO SET TASK=COMPLETE %>
 	    				        <td> 
-	    					       <form action="completeTask">
-	    						  <input id="taskButton" type="radio" name="task">
+	    					       <form name="completeForm">
+	    						  <input id="taskButton" type="radio" name="task" onclick="complete()">
 	    							</form>
 	    						</td>
 	    		 			<% } %> 
@@ -164,7 +177,6 @@
 	      		</tr>
 	      		<% } %> <!-- Loop through map -->
 	    		<% }%> <!-- if statement -->
-	    		
 		    </tbody>
 	  </table>
 	  </section>
