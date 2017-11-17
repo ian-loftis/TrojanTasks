@@ -5,7 +5,16 @@ import java.util.ArrayList;
 public class TaskList {
 
 	private String name;
+	private String type;
 	private ArrayList<String> items;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public TaskList() {
 		items = new ArrayList<String>();
@@ -33,3 +42,4 @@ public class TaskList {
 	public void setItems(ArrayList<String> items) {
 		this.items = items;
 	}
+}
