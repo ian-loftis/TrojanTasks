@@ -58,8 +58,8 @@ public class ListServlet extends HttpServlet {
 				Group g = (Group)request.getSession().getAttribute("Group");
 				
 				g.getLists().add(list);
-				dbManager.addListToGroup(g.getGroupID(),list);
-				response.getWriter().println("1");
+				
+				response.getWriter().println(dbManager.addListToGroup(g.getGroupID(),list));
 			}else {
 				response.getWriter().println("0");
 			}

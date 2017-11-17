@@ -63,7 +63,7 @@ public class DBManager {
         return null;
     }
     
-    public void addListToGroup(String groupId, TaskList list) {
+    public String addListToGroup(String groupId, TaskList list) {
     	BsonArray items = new BsonArray();
     	for(String s : list.getItems()) {
     		items.add(new BsonString(s));
@@ -73,6 +73,11 @@ public class DBManager {
     	groupCollection.updateOne(
     			new Document("_id",new ObjectId(groupId))
     			, new Document("$push",new Document("lists",listDoc)));
+    	
+    	Document result = findByOId(groupId,groupCollection);
+    	@SuppressWarnings("unchecked")
+		ArrayList<Document> lists = (ArrayList<Document>)result.get("lists");
+    	return lists.get(lists.size() - 1).get("_id").toString();
     }
     
     public void removeListFromGroup(String groupId, String listId) {    	
@@ -83,7 +88,7 @@ public class DBManager {
 
     @SuppressWarnings("unchecked")
 	public Group getGroup(String id){
-        Document group = findById(id,groupCollection);
+        Document group = findByOId(id,groupCollection);
         
         //logic for turning document into object
         if(group != null){
@@ -98,70 +103,25 @@ public class DBManager {
             }
             //get list objects based on array of lists
             ArrayList<Document> lists = (ArrayList<Document>)group.get("lists");
+            System.out.println(lists.size());
             for(Document d : lists) {
             	result.getLists().add(parseList(d));
+            	System.out.println("found list");
             }
-            
-            ArrayList<Document> calendars = (ArrayList<Document>)group.get("calendars");
-            for(Document d : calendars) {
-            	result.getCalendars().add(parseCalendar(d));
-            }
+
             return result;
         }
 
         return null;
     }
 
-    private Calendar parseCalendar(Document d) {
-		Calendar result = new Calendar();
-		result.setWeek(d.getString("week"));
-		result.setMonth(d.getString("month"));
-		result.setGroupId(d.getString("groupid"));
-		ArrayList<Document> docs = (ArrayList<Document>)d.get("days");
-		for(Document doc : docs) {
-			result.getDays().add(parseDay(doc));
-		}
-		
-		return result;
-	}
-
-    private Day parseDay(Document d) {
-    	Day day = new Day();
-    	day.setDay(d.getString("day"));
-    	@SuppressWarnings("unchecked")
-		ArrayList<Document> docs = (ArrayList<Document>)d.get("events");
-    	for(Document doc : docs) {
-    		day.getEvents().add(parseEvent(doc));
-    	}
-    	return day;
-    }
     
-    @SuppressWarnings("unchecked")
-	private Event parseEvent(Document d) {
-    	Event e = new Event();
-    	e.setCreator(d.getString("creator"));
-    	e.setName(d.getString("name"));
-    	e.setType(d.getString("type"));
-    	e.setDescription(d.getString("description"));
-    	e.setTime(parseTime((Document)d.get("time")));
-    	e.setUserInvolved((ArrayList<String>)d.get("usersinvolved"));
-    	e.setId(d.get("_id").toString());
-    	return e;
-    }
-    
-    private Time parseTime(Document d) {
-    	Time t = new Time();
-    	t.setStartTime(d.getString("startTime"));
-    	t.setEndTime(d.getString("endTime"));
-    	return t;
-    }
     
     @SuppressWarnings("unchecked")
 	private TaskList parseList(Document d){
         if(d != null){
             TaskList result = new TaskList();
             result.setName(d.getString("name"));
-            result.setType(d.getString("type"));
             result.setItems((ArrayList<String>)d.get("items"));
             result.setID(d.get("_id").toString());
             //result.set
@@ -170,9 +130,14 @@ public class DBManager {
         return null;
     }
 
-    //reuseable helper function for finding documents by ID
+    //reuseable helper function for finding documents by string ID
     private Document findById(String id, MongoCollection<Document> collection) {
         return collection.find(Filters.eq("_id",id)).first();
+    }
+    
+    //reuseable helper function for finding documents by Object ID
+    private Document findByOId(String id, MongoCollection<Document> collection) {
+        return collection.find(Filters.eq("_id",new ObjectId(id))).first();
     }
     
     //given a document of a user, it returns a user object
@@ -187,7 +152,7 @@ public class DBManager {
         for(Document task : tasks){
         	System.out.println(task.getString("name"));
         	System.out.println(task.getString("description"));
-        	System.out.println(task.getString("_id"));
+        	System.out.println(task.get("_id").toString());
         	result.getTasklist().add(new Task(task.getString("name"),task.getString("description")
                     ,task.get("_id").toString()));
         }
