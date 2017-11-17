@@ -36,7 +36,7 @@
 					<label for="pwd2"><b>Repeat Password</b></label>
 					<input type="password" name="pwd2" placeholder="Enter Password Again">
 					<div id="lower">
-						<input type="submit" value="Create Account">
+						<input type="submit" id="createbutton" value="Create Account">
 					</div> 
 				</form>
 			</div> 

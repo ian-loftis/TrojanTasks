@@ -8,7 +8,6 @@ html, body {
 .redh1 {
   	color: black; 
 }
-
 .blackh1 {
   	color: red; 
 }
@@ -60,6 +59,7 @@ label {
 	font-size: 14px;
 }
 input {
+	
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 12px;
 	outline: none;
@@ -82,6 +82,9 @@ input[type=password] {
 	width: 100%;
 	height: 69px;
 	margin-top: 20px;
+}
+#createbutton{
+	width: 125px
 }
 input[type=submit]{
 	float: left;
