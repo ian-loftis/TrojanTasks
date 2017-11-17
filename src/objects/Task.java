@@ -4,7 +4,7 @@ public class Task {
 
     String name;
     String description;
-    Integer ID;
+    String ID;
     boolean completed;
     
     public Task()
@@ -12,7 +12,7 @@ public class Task {
     		
     }
     
-    public Task(String name, String description, Integer ID)
+    public Task(String name, String description, String ID)
     {
     		this.name=  name;
     		this.description = description;
@@ -28,7 +28,7 @@ public class Task {
         return description;
     }
 
-    public Integer getID() {
+    public String getID() {
         return ID;
     }
 
@@ -40,7 +40,7 @@ public class Task {
         this.description = description;
     }
 
-    public void setID(Integer ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
     

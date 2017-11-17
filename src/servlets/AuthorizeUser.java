@@ -1,11 +1,19 @@
 package servlets;
 
+import java.io.IOException;
+
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AuthorizeUser extends HttpServlet{
+import managers.DBManager;
+import objects.Group;
+import objects.User;
 
+@WebServlet("/LoginServlet")
+public class AuthorizeUser extends HttpServlet{
+	DBManager manager = DBManager.getInstance();
 	/**
 	 * 
 	 */
@@ -18,7 +26,36 @@ public class AuthorizeUser extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	{
-		
+	//	uname pwd
+		String username = request.getParameter("uname");
+		String pwd = request.getParameter("pwd");
+		User u = manager.verify(username, pwd);
+		if(u != null) {
+			if(u.getGroupID().equals("null")) {
+				request.getSession().setAttribute("Group", null);
+			}else {
+				Group g = manager.getGroup(u.getGroupID());
+				request.getSession().setAttribute("Group",g);
+			}
+			
+			request.getSession().setAttribute("User", u);
+			
+			try {
+				response.getWriter().println("1");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			
+			try {
+				response.getWriter().println("0");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+		}
 	}
 	
 }

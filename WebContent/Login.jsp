@@ -53,34 +53,29 @@
 	    
 	<div class="container">
 	  <section class="col-md-6"> 
-	  	<span id="status"></span>
+	  	<!-- <span id="status"></span> -->
 		<div id="login">
 			<h1>Login</h1>
-			<form name="myform" method="post" action="Home.jsp" onsubmit="return validate()">
+			<form name="myform" method="POST" action="Home.jsp" onsubmit="return validate()">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" name="uname" placeholder="Enter Username">
 				<label for="pwd"><b>Password</b></label>
 				<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
-					<input type="submit" value="Login">
+					<input type="submit" value="Log In">
+					<button id="create" value="Create Account" >Create Account</button>
 				</div> 
 			</form>
 		</div> 
+		
 	  </section>
 	  <section class="col-md-6"> 
 	  	<div id="taskassign">
-	  		<button onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
+	  		<button id="task" onclick="RandomTaskAssigner.jsp" value="Random Task Assigner"> Random Task Assigner </button>
 	  		Click here to randomly assign tasks without logging in or creating an account.
-
 	  	</div>
 	  </section>
 	</div>
-	    
-	    
-	    
-	    
-	    
-	    
-		
+	<span id="status"></span>
 	</body>
 </html>

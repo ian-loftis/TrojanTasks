@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Calendar {
     private String month;
     private String week;
-    private int groupId;
-    private ArrayList<Day> days;
+    private String groupId;
+    private ArrayList<Day> days = new ArrayList<Day>();
 
     public void addEvent(Event e, int day){
         days.get(day).insertEvent(e);
     }
 
-    public void removeEvent(int eventId, int day){
+    public void removeEvent(String eventId, int day){
         days.get(day).removeEvent(eventId);
     }
 
@@ -32,11 +32,11 @@ public class Calendar {
         this.week = week;
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 

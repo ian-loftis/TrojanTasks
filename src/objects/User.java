@@ -6,11 +6,11 @@ public class User {
 
     private String name;
     private int id;
-    private int groupID;
+    private String groupID;
     private String email;
     private String password;
     private String image;
-    private ArrayList<Task> tasklist;
+    private ArrayList<Task> tasklist = new ArrayList<Task>();
 
     void joinGroup (int groupID) {}
     void addTask (Task task) {}
@@ -31,11 +31,11 @@ public class User {
         this.id = id;
     }
 
-    public int getGroupID() {
+    public String getGroupID() {
         return groupID;
     }
 
-    public void setGroupID(int groupID) {
+    public void setGroupID(String groupID) {
         this.groupID = groupID;
     }
 

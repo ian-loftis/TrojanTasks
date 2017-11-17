@@ -4,20 +4,29 @@ import java.util.ArrayList;
 
 public class Group {
 
-    private int groupID;
-    private ArrayList<User> users;
-    private ArrayList<TaskList> lists;
-    private ArrayList<Calendar> calendars;
+    private String groupID;
+    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<TaskList> lists = new ArrayList<TaskList>();
+    private ArrayList<Calendar> calendars = new ArrayList<Calendar>();
+    private String name;
+    
+    
 
-    void addUser(int id) {}
+    public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	void addUser(int id) {}
     void removeUser(int id) {}
     void addList(String name) {}
     void removeList(String name) {}
 
-    public int getGroupID() {
+    public String getGroupID() {
         return groupID;
     }
-    public void setGroupID(int groupID) {
+    public void setGroupID(String groupID) {
         this.groupID = groupID;
     }
     public ArrayList<User> getUsers() {

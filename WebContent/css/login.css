@@ -8,14 +8,13 @@ html, body {
 .redh1 {
   	color: black; 
 }
-
 .blackh1 {
   	color: red; 
 }
-button{
+#task{
 	font-weight: bold;
 	font-size: 35px;
-	color: #acd6ef;
+	color: #e20b0b;
 	position: fixed, center;
 	width: 340px;
 	height: 280px;
@@ -60,6 +59,7 @@ label {
 	font-size: 14px;
 }
 input {
+	
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 12px;
 	outline: none;
@@ -83,11 +83,32 @@ input[type=password] {
 	height: 69px;
 	margin-top: 20px;
 }
+#createbutton{
+	width: 125px
+}
 input[type=submit]{
 	float: left;
+	margin-left: 20px;
 	margin-right: 20px;
 	margin-top: 20px;
 	width: 80px;
+	height: 30px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #acd6ef;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e20b0b), to(#f73333));
+	background-image: -moz-linear-gradient(top left 90deg, #e20b0b 0%, #f73333 100%);
+	border-radius: 30px;
+	border: 1px solid #e20b0b;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .5);
+	cursor: pointer;
+}
+#create {
+	float: right;
+	margin-right: 20px;
+	margin-top: 20px;
+	width: 125px;
 	height: 30px;
 	font-size: 14px;
 	font-weight: bold;

@@ -33,4 +33,3 @@ public class TaskList {
 	public void setItems(ArrayList<String> items) {
 		this.items = items;
 	}
-}

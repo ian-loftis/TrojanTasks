@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Event {
     private String name;
-    private int id;
+    private String id;
     private String type;
-    private ArrayList<Integer> userInvolved;
+    private ArrayList<String> userInvolved = new ArrayList<String>();
     private String description;
     private Time time;
-    private int creator;
+    private String creator;
 
     public String getName() {
         return name;
@@ -19,11 +19,11 @@ public class Event {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -35,11 +35,11 @@ public class Event {
         this.type = type;
     }
 
-    public ArrayList<Integer> getUserInvolved() {
+    public ArrayList<String> getUserInvolved() {
         return userInvolved;
     }
 
-    public void setUserInvolved(ArrayList<Integer> userInvolved) {
+    public void setUserInvolved(ArrayList<String> userInvolved) {
         this.userInvolved = userInvolved;
     }
 
@@ -59,11 +59,11 @@ public class Event {
         this.time = time;
     }
 
-    public int getCreator() {
+    public String getCreator() {
         return creator;
     }
 
-    public void setCreator(int creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
 }

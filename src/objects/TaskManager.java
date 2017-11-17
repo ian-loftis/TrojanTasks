@@ -12,7 +12,7 @@ public class TaskManager {
 	
 	public void updateTask(Task task)
 	{
-		Integer id = task.getID();
+		String id = task.getID();
 		//call database method and pass in new task object for the task id
 	}
 	
