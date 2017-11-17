@@ -50,21 +50,12 @@
 				shuffle(taskList);
 				var myMap = new Map();
 				var status = "";
-				while(taskList.length > 0){
+				/* while(taskList.length > 0){
 					//do the code below
-				}
+				} */
 				for(var j=0; j<peopleList.length; j++){
 					var person = peopleList[j];	
 					var task = taskList[0]; //gets first task in array
-					
-					var tasks = [];
-					myMap.set(person, tasks);
-					
-					
-					tasks.push(task); //adds task to persons task list
-					
-					
-					
 					taskList.shift(); //deletes first task in array
 					var assignment = person + ": " + task;
 					myMap.set(person, assignment);
