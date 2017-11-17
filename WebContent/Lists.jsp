@@ -21,38 +21,10 @@
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
 	
-	//ArrayList<TaskList> list = new ArrayList<TaskList>();
+	ArrayList<TaskList> list = new ArrayList<TaskList>();
 	if (group != null) {
-		//list = group.getLists();
+		list = group.getLists();
 	}
-	
-	// Test code 
-		TaskList test1 = new TaskList();
-		test1.setName("list 1");
-		test1.setID("1");
-		test1.addItem("bananas");
-		test1.addItem("apples");
-		test1.addItem("pears");
-		
-		
-		TaskList test2 = new TaskList();
-		test2.setName("list 2");
-		test2.setID("2");
-		test2.addItem("broom");
-		test2.addItem("clorox");
-		test2.addItem("detergent");
-		
-		TaskList test3 = new TaskList();
-		test3.setName("list 3");
-		test3.setID("3");
-		test3.addItem("natty");
-		test3.addItem("svedka");
-		test3.addItem("smirnoff");
-		
-		ArrayList<TaskList> list = new ArrayList<TaskList>();
-		list.add(test1);
-		list.add(test2);
-		list.add(test3);
 
 %>
 
