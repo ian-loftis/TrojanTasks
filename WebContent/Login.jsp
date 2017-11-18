@@ -67,7 +67,7 @@
 				<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
 					<input type="submit" value="Log In">
-					<a href="CreateAccount.jsp" > Create Account </a>
+					<a href="CreateAccount.jsp" id="ll" style="width:125px"> Create Account </a>
 					<!--  <button id="create" value="Create Account">Create Account</button> -->
 				</div> 
 			</form>

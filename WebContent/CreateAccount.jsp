@@ -62,17 +62,17 @@
 				 
 				<h2>Sign Up</h2>	
 				<form name="signup" method="POST" onsubmit="return validate();">
-					<label for="fname"><b>First Name</b></label>
+					<label for="fname"><b>First Name: </b></label>
 					<input type="text" name="fname" placeholder="Enter First Name"> <br />
-					<label for="lname"><b>Last Name</b></label>
+					<label for="lname"><b>Last Name: </b></label>
 					<input type="text" name="lname" placeholder="Enter Last Name"> <br />
-					<label for="email"><b>E-Mail</b></label>
+					<label for="email"><b>E-Mail: </b></label>
 					<input type="email" id="email" name="email" placeholder="Enter Email"> <br />
-					<label for="pwd"><b>Password</b></label>
+					<label for="pwd"><b>Password: </b></label>
 					<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
 					<input type="submit" id="createbutton" value="Create Account">
-					<a href="Login.jsp">Login</a>
+					<a href="Login.jsp" id="ll" >Login</a>
 				</div> 
 				</form>
 				<span id="status" style="color:red"></span>
