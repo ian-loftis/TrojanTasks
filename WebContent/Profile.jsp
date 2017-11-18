@@ -114,26 +114,26 @@
 		  			 	<div data-role="main" class="ui-content">
 						    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Create Group</a>
 						    <div data-role="popup" id="myPopup" class="ui-content" style="min-width:250px;">
-						      <form method="post" action="createGroup()">
+						      <form>
 						        <div>
 						          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
-						          <input type="text" name="user" id="usrnm" placeholder="Name">
-						          <input type="submit" data-inline="true" value="Create">
+						          <input id="createInput" type="text" name="user" placeholder="Name">
 						        </div>
 						      </form>
+						      <button type="button" onClick="createGroup()"> Create </button>
 					    </div>
 					</tr>
 					<tr> 
 		  			 	<div data-role="main" class="ui-content">
 						    <a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Join Group</a>
 						    <div data-role="popup" id="myPopup2" class="ui-content" style="min-width:250px;">
-						      <form method="post" action="joinGroup()">
+						      <form>
 						        <div>
 						          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
-						          <input type="text" name="user" id="usrnm" placeholder="ID">
-						          <input type="submit" data-inline="true" value="Join">
+						          <input id="joinInput" type="text" name="user" placeholder="ID">
 						        </div>
 						      </form>
+						      <button type="button" onClick="joinGroup()"> Join </button>
 					    </div>
 					</tr>
 			    </table>
@@ -146,33 +146,36 @@
   	
   		function createGroup() {
   			
+  			
+  			var groupName = document.getElementById("createInput").value;  			
   			var type = "create";
   			var email = document.getElementById("emailElement").innerHTML;
   			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString, false);
+			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString + "&name=" + groupName, false);
    	 	 	xhttp.send();
    	 	 	
    	 		var response = xhttp.responseText; 
    	 		if (response == "0") {
    	 			// fail
    	 		} else {
-   	 			// Generate group info 
+   	 			document.getElementById("groupTable").innerHTML = response;
    	 		}
   		}
   		
   		function joinGroup() {
   			
+  			var groupID = document.getElementById("joinInput").value;
   			var type = "join";
   			var email = document.getElementById("emailElement").innerHTML;
   			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString, false);
+			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString + "&ID=" + groupID, false);
    	 	 	xhttp.send();
    	 	 	
    	 		var response = xhttp.responseText; 
    	 		if (response == "0") {
    	 			// fail
    	 		} else {
-   	 			// Generate group info 
+   	 			document.getElementById("groupTable").innerHTML = response;
    	 		}
   		}
   		
