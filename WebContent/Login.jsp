@@ -5,8 +5,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Log In</title>
-		<link rel="stylesheet" href="css/login.css">
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="css/login.css"> 
+		<link rel="stylesheet" href="css/styles.css"> 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- Viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,12 +34,14 @@
 						//display error message
 						status.textContent = "That is not a valid combination of Username and Password."
 					}
-					if(message == 1){ //login info validated, go to home page
+					else if(message == 1){ //login info validated, go to home page
 						access = true;
 					}
 				}
 				return access;
 			}
+			
+			
 		</script>
 	</head>
 	<body>
@@ -53,26 +55,28 @@
 	        </section>
 	    </div>
 	    
-	<div class="container">
+	<div class="container"> 
 	  <section class="col-md-6"> 
-	  	<!-- <span id="status"></span> -->
-		<div id="login">
-			<h2>Login</h2>
+		<div id="login"> 
+		
+		<h2>Login</h2>
 			<form name="myform" method="POST" action="Home.jsp" onsubmit="return validate()">
-				<label for="uname"><b>Username</b></label>
+				<label for="uname"><b>Email</b></label>
 				<input type="text" name="uname" placeholder="Enter Username">
 				<label for="pwd"><b>Password</b></label>
 				<input type="password" name="pwd" placeholder="Enter Password">
 				<div id="lower">
 					<input type="submit" value="Log In">
-					<button id="create" value="Create Account" >Create Account</button>
+					<a href="CreateAccount.jsp" > Create Account </a>
+					<!--  <button id="create" value="Create Account">Create Account</button> -->
 				</div> 
 			</form>
-		</div> 
-		
-	  </section>
-
-
+			<span id="status" style="color:red"></span>
+		</div> 	
+	  
+	 </section> <!-- first column -->  
+	
+	<!-- TASK ASSIGNER BUTTON COLUMN -->
 	  <section class="col-md-6"> 
 		<div id="taskassign">
 			<form id="task" name="task" method="POST" action="RandomTaskAssigner.jsp">
@@ -80,10 +84,17 @@
 			</form>
 			Click here to randomly assign tasks without logging in or creating an account.
 		</div>
-		</section>
+	  </section> <!-- second column -->
 	  
-	</div>
-	<span id="status"></span>
-	</div>
+	</div> <!-- /container -->
+	
+	</div> <!-- services container -->
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<!-- My script -->
+	<script> src="js/script.js" </script>
 	</body>
 </html>
