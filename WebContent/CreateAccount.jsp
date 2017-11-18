@@ -19,23 +19,24 @@
 				
 				var success = false;
 				var fname = document.signup.fname.value;
-				var lanme = document.signup.lname.value;
+				var lname = document.signup.lname.value;
 				var email = document.signup.email.value;
 				var pw = document.signup.pwd.value;
 				
 				var xhttp = new XMLHttpRequest();
-				xhttp.open("GET", "/"+window.location.pathname.split("/")[1]+"/CreateUser?fname=" + fname
-						+ "&lname=" + lname + "&email=" + email + "&pw=" + pw, false);
+				xhttp.open("GET", "/"+window.location.pathname.split("/")[1]+"/CreateUser?name=" + fname + " " + lname
+						+ "&email=" + email + "&pw=" + pw, false);
 				xhttp.send();
 				
 				var status = document.getElementById("status");
 				
 				if(xhttp.responseText.trim().length > 0){
-					var message = responseText.trim();
-					if(message == 0){ //error
+					var message = xhttp.responseText.trim();
+					
+					if(message == "0"){ //error
 						status.textContent = "That email is already taken. Please enter a different email."
 					}
-					else if (message == 1){ //success
+					else if (message == "1"){ //success
 						success = true;
 					status.textContent = "Successfully created account. Please go to the Login page."
 					}

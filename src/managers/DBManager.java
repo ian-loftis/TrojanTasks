@@ -10,17 +10,14 @@ import org.bson.types.ObjectId;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
-import objects.Calendar;
-import objects.Day;
-import objects.Event;
 import objects.Group;
 import objects.Task;
 import objects.TaskList;
-import objects.Time;
 import objects.User;
 
 public class DBManager {
@@ -65,6 +62,7 @@ public class DBManager {
     
     public boolean createUser(String name, String email, String password) {
 		if(findById(email,userCollection) != null) {
+			System.out.println("Shit");
 			return false;
 		}
     	userCollection.insertOne(
@@ -189,12 +187,20 @@ public class DBManager {
 
     //reuseable helper function for finding documents by string ID
     private Document findById(String id, MongoCollection<Document> collection) {
+    	//if(collection.count(Filters.eq("_id",id)))
+    	if(collection.count(Filters.eq("_id",id)) == 0) {
+    		return null;
+    	}
         return collection.find(Filters.eq("_id",id)).first();
     }
     
     //reuseable helper function for finding documents by Object ID
     private Document findByOId(String id, MongoCollection<Document> collection) {
     	if(!ObjectId.isValid(id)) {
+    		return null;
+    	}
+    	
+    	if(collection.count(Filters.eq("_id",new ObjectId(id))) == 0) {
     		return null;
     	}
         return collection.find(Filters.eq("_id",new ObjectId(id))).first();
