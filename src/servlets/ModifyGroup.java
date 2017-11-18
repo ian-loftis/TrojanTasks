@@ -36,14 +36,12 @@ public class ModifyGroup extends HttpServlet {
 		boolean success = false;
 		if(type.equals("join")) {
 			String groupid = request.getParameter("groupid");
-			success = dbManager.addUserToGroup(groupid,userEmail);
-			
+			success = dbManager.addUserToGroup(groupid,userEmail,request.getSession());
 		}else if(type.equals("create")) {
 			String gname = request.getParameter("gname");
-			success = dbManager.addUserToNewGroup(userEmail,gname);
-			
+			success = dbManager.addUserToNewGroup(userEmail,gname,request.getSession());
 		}else if(type.equals("leave")) {
-			success = dbManager.removeGroupFromUser(userEmail);
+			success = dbManager.removeGroupFromUser(userEmail,request.getSession());
 		}
 		
 		if(success) {

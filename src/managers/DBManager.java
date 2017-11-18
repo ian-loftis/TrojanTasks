@@ -3,6 +3,8 @@ package managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.bson.BsonArray;
 import org.bson.BsonString;
 import org.bson.Document;
@@ -14,13 +16,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
-import objects.Calendar;
-import objects.Day;
-import objects.Event;
 import objects.Group;
 import objects.Task;
 import objects.TaskList;
-import objects.Time;
 import objects.User;
 
 public class DBManager {
@@ -63,8 +61,58 @@ public class DBManager {
         return null;
     }
     
+    //adds the task to the database and sets the ID for the task
+    //You still need to add the java task object into the user object in
+    //the session
+    public boolean addTaskToUser(String username, Task task) {
+    	if(userCollection.count(Filters.eq("_id",username)) == 0) {
+    		return false;
+    	}
+    	ObjectId oId = new ObjectId();
+    	task.setID(oId.toString());
+    	
+    	//convert task to document
+    	Document taskDoc = new Document("complete",false)
+    			.append("name", task.getName())
+    			.append("description", task.getDescription())
+    			.append("_id", oId);
+    	
+    	userCollection.updateOne(
+    			new Document("_id", username), 
+    			new Document("$push",new Document("tasks",taskDoc)));
+    	
+    	return true;
+    }
+    
+    //remvoes a task from the user based on the taskid
+    //checks whether the user exists and whether the taskid is a valid id
+    public boolean removeTaskFromUser(String username, String taskId) {
+    	if(userCollection.count(Filters.eq("_id",username)) == 0 
+    			|| !ObjectId.isValid(taskId)) {
+    		return false;
+    	}
+    	userCollection.updateOne(
+    			new Document("_id", username),
+    			new Document("$pull",new Document("tasks",new Document("_id",new ObjectId(taskId)))));
+    	return true;
+    }
+    
+    //marks a task as complete. If the task is already complete, nothing will change
+    public boolean markUserTaskAsDone(String username, String taskId) {
+    	if(userCollection.count(Filters.eq("_id",username)) == 0
+    			|| !ObjectId.isValid(taskId)) {
+    		return false;
+    	}
+    	userCollection.updateOne(
+    			new Document("_id", username).append("tasks._id", new ObjectId(taskId)), 
+    			new Document("$set",new Document("complete",true)));
+    	
+    	return true;
+    }
+    
     public boolean createUser(String name, String email, String password) {
 		if(findById(email,userCollection) != null) {
+			System.out.println("Shit");
 			return false;
 		}
     	userCollection.insertOne(
@@ -77,7 +125,8 @@ public class DBManager {
 		 
 	}
     
-    public boolean addUserToGroup(String groupid, String userEmail) {
+    
+    public boolean addUserToGroup(String groupid, String userEmail, HttpSession session) {
 		if(!ObjectId.isValid(groupid) || findByOId(groupid,groupCollection) == null
 				|| findById(userEmail,userCollection) == null) {
 			return false;
@@ -91,25 +140,43 @@ public class DBManager {
 				Filters.eq("_id",new ObjectId(groupid)), 
 				new Document("$addToSet",new Document("users",userEmail)));
 		
+		
+		session.setAttribute("Group", getGroup(groupid));
 		return true;
 	}
     
-    public boolean addUserToNewGroup(String userEmail,String groupName) {
+    public boolean addUserToNewGroup(String userEmail,String groupName, HttpSession session) {
 		if(findById(userEmail,userCollection).getString("groupid") != "null" || groupName.length() == 0) {
 			return false;
 		}
+		ObjectId id = new ObjectId();
 		
 		groupCollection.insertOne(new Document("name",groupName)
-				.append("_id", new ObjectId())
+				.append("_id", id)
 				.append("users", new BsonArray().add(new BsonString(userEmail))));		
 		
+		session.setAttribute("Group", getGroup(id.toString()));
 		return true;
 	}
     
-	public boolean removeGroupFromUser(String userEmail) {
-		//if(findById(userEmail,userCollection) == null
-			//	|| findByOId())
+	public boolean removeGroupFromUser(String userEmail, HttpSession session) {
+		if(userCollection.count(new Document("_id",userEmail)) == 0) {
+			return false;
+		}else {
+			String groupId = findById(userEmail,userCollection).getString("groupid");
+			if(findByOId(groupId,groupCollection) == null) {
+				return false;
+			}else {
+				groupCollection.updateOne(
+						new Document("_id",new ObjectId(groupId)),
+						new Document("$pull", new Document("users",userEmail)));
+				userCollection.updateOne(
+						new Document("_id",userEmail), 
+						new Document("$set", new Document("groupid","null")));
+			}
+		}
 		
+		session.setAttribute("Group", null);
 		return true;
 	}
     
@@ -189,12 +256,20 @@ public class DBManager {
 
     //reuseable helper function for finding documents by string ID
     private Document findById(String id, MongoCollection<Document> collection) {
+    	//if(collection.count(Filters.eq("_id",id)))
+    	if(collection.count(Filters.eq("_id",id)) == 0) {
+    		return null;
+    	}
         return collection.find(Filters.eq("_id",id)).first();
     }
     
     //reuseable helper function for finding documents by Object ID
     private Document findByOId(String id, MongoCollection<Document> collection) {
     	if(!ObjectId.isValid(id)) {
+    		return null;
+    	}
+    	
+    	if(collection.count(Filters.eq("_id",new ObjectId(id))) == 0) {
     		return null;
     	}
         return collection.find(Filters.eq("_id",new ObjectId(id))).first();
