@@ -88,6 +88,7 @@
   				<table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
   					<tr> 
   						<td> <%=group.getName() %></td>	
+  						<td> <%=group.getGroupID() %> </td>
   					</tr>
   					<tr> 
   						<td> Members </td>
@@ -110,7 +111,7 @@
   			 else { %>
   			 <table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
   			 </table>
-  			 	<table> 
+  			 	<table id="buttonTable"> 
   			 		<tr> 
 		  			 	<div data-role="main" class="ui-content">
 						    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Create Group</a>
@@ -160,6 +161,7 @@
    	 		} else {
    	 			console.log(response);
    	 			document.getElementById("groupTable").innerHTML = response;
+   	 			document.getElementById("buttonTable").innerHTML = "";
    	 		}
   		}
   		
@@ -177,6 +179,7 @@
    	 			// fail
    	 		} else {
    	 			document.getElementById("groupTable").innerHTML = response;
+   	 			document.getElementById("buttonTable").innerHTML = "";
    	 		}
   		}
   		
