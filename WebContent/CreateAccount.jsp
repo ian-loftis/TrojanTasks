@@ -37,8 +37,8 @@
 						status.textContent = "That email is already taken. Please enter a different email."
 					}
 					else if (message == "1"){ //success
+						status.textContent = "Successfully created account. Please go to the Login page."
 						success = true;
-					status.textContent = "Successfully created account. Please go to the Login page."
 					}
 				}
 				return success;
