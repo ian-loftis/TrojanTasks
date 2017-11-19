@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import managers.DBManager;
+import objects.Group;
+import objects.User;
 
 /**
  * Servlet implementation class ModifyGroup
@@ -32,8 +35,8 @@ public class ModifyGroup extends HttpServlet {
 		String type = request.getParameter("req");
 		String userEmail = request.getParameter("email");
 		DBManager dbManager = DBManager.getInstance();
-		
-		boolean success = false;
+	
+		String success = null;
 		if(type.equals("join")) {
 			String groupid = request.getParameter("groupid");
 			success = dbManager.addUserToGroup(groupid,userEmail,request.getSession());
@@ -41,11 +44,11 @@ public class ModifyGroup extends HttpServlet {
 			String gname = request.getParameter("gname");
 			success = dbManager.addUserToNewGroup(userEmail,gname,request.getSession());
 		}else if(type.equals("leave")) {
-			success = dbManager.removeGroupFromUser(userEmail,request.getSession());
+			//success = dbManager.removeGroupFromUser(userEmail,request.getSession());
 		}
 		
-		if(success) {
-			response.getWriter().println("1");
+		if(success != null) {
+			print(response.getWriter(),success);
 		}else {
 			response.getWriter().println("0");
 		}
@@ -58,5 +61,21 @@ public class ModifyGroup extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	private void print(PrintWriter pw, String id) {
+		Group g = DBManager.getInstance().getGroup(id);
+		pw.println(String.format("<tr> \r\n" + 
+				"			<td> %s></td>	\r\n" + 
+				"		</tr>\r\n" + 
+				"		<tr> \r\n" + 
+				"			<td> Members </td><td> ", g.getName()));
+		
+		for(User u : g.getUsers()) {
+			pw.println(u.getName() + ",");
+		}
+		pw.println("</td></tr>");
+		
+	}
+	
 
 }

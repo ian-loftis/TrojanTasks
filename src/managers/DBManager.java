@@ -1,5 +1,6 @@
 package managers;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,10 +128,10 @@ public class DBManager {
 	}
     
     
-    public boolean addUserToGroup(String groupid, String userEmail, HttpSession session) {
+    public String addUserToGroup(String groupid, String userEmail, HttpSession session) {
 		if(!ObjectId.isValid(groupid) || findByOId(groupid,groupCollection) == null
 				|| findById(userEmail,userCollection) == null) {
-			return false;
+			return null;
 		}
 		
 		userCollection.updateOne(
@@ -143,12 +144,13 @@ public class DBManager {
 		
 		
 		session.setAttribute("Group", getGroup(groupid));
-		return true;
+	
+		return groupid;
 	}
-    
-    public boolean addUserToNewGroup(String userEmail,String groupName, HttpSession session) {
+
+    public String addUserToNewGroup(String userEmail,String groupName, HttpSession session) {
 		if(findById(userEmail,userCollection).getString("groupid") != "null" || groupName.length() == 0) {
-			return false;
+			return null;
 		}
 		ObjectId id = new ObjectId();
 		
@@ -157,7 +159,7 @@ public class DBManager {
 				.append("users", new BsonArray().add(new BsonString(userEmail))));		
 		
 		session.setAttribute("Group", getGroup(id.toString()));
-		return true;
+		return id.toString();
 	}
     
 	public boolean removeGroupFromUser(String userEmail, HttpSession session) {
