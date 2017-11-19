@@ -133,7 +133,7 @@
 		  <button id="addListBtn" onClick="addList()">Create List</button>
 	  </section>
 	  <section class="col-md-3">
-	  		<h2> Items Added </h2>
+	  		<h2> Items </h2>
 	        <ul id="dialog" title="Add List" class="list-group">
 	            <ul id=listItem>
 	            </ul>     
@@ -147,6 +147,7 @@
 	        $("#addBtn").click(function() {
 	        	 	var bla = $("#item").val();
 	            $("#dialog ul").append(bla);
+	            $("#dialog ul").append("<br>");
 	            $("#dialog ul").append("<br>");
 	            items.push(bla);
 	        });
