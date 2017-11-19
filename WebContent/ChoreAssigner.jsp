@@ -1,3 +1,33 @@
+<%@ page import="objects.Day" %>
+<%@ page import="objects.Event" %>
+<%@ page import="objects.Group" %>
+<%@ page import="objects.Task" %>
+<%@ page import="objects.TaskManager" %>
+<%@ page import="objects.Time" %>
+<%@ page import="objects.User" %>
+<%@ page import="objects.TaskList" %>
+
+<%@ page import="jsonObjects.UpdateTasksRequest" %>
+<%@ page import="jsonObjects.CalendarUpdateRequest" %>
+<%@ page import="jsonObjects.RequestTask" %>
+
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Map" %>
+<%@page import="java.util.HashMap" %>
+<%@page import="java.util.Iterator" %>
+
+<% 
+	User user = (User)session.getAttribute("User");
+	Group group = (Group)session.getAttribute("Group");
+	Map<String, String> groupTasks = null; 
+	ArrayList<User> groupUsers = null;
+	if (group != null) {
+		groupUsers = group.getUsers();
+		groupTasks = new HashMap<String, String>();
+	}
+	
+%>
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
@@ -14,17 +44,10 @@
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	
 	    <!-- Optional Theme -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-	
-	    <!-- Optional IE8 Support -->
-	    <!--[if lt IE 9]>
-	    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	    <![endif]-->
-	
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">	
 	    <!-- My stylesheet -->
 	    <link rel="stylesheet" href="css/styles.css">
-	    <title>Home</title>
+	    <title>Chore Assigner</title>
 	</head>
 	<body>
 	<div class="services container">
@@ -49,14 +72,101 @@
   		</nav>
 	</div>
 	
-	<!-- FOOTER SECTION - Before closing </body> tag -->
+	<div class="container">
+		<section class="col-md-6"> 
+	  	<h2> Group Members</h2>
+	  	<br /> 
+	  	<table class="table">
+	    <thead>
+	      <tr>
+	      	<th> Members  </th>
+	        <th>  </th>
+	        <th>  </th>
+	      </tr>
+	    </thead>
+		    <tbody id="members"> 
+				<% for (int i = 0; i < groupUsers.size(); i++) { %>
+			      	<tr>
+			      		<%= groupUsers.get(i).getName()  %>
+			      	</tr>
+			      <%} %>  
+		    </tbody>
+	  </table>
+	  </section>
 	
+	<section class="col-md-3">
+		  <h2>Add Task</h2>
+		  <br> 
+		  <form name="taskForm">
+			  <input id="item" type="text" placeholder="Task Name"> 
+			  <input id="itemDescription" type="text" width="100px" placeholder="Task Description">
+		  </form>
+		  <br>
+		  <button id="addBtn">Add Task</button>
+		  <button id="clearBtn">Clear</button> <br> <br> 
+		  <button id="assignBtn" onClick="assign()">Assign Tasks</button>
+	  </section>
+	  <section class="col-md-3">
+	  		<h2> Tasks </h2>
+	        <ul id="dialog" title="Add List" class="list-group">
+	            <ul id=listItem>
+	            </ul>     
+	        </ul>
+	  </section>
+	</div>
+	
+	<script> 
+		var items = [];
+		var descriptions = [];
+		$(document).ready(function(){
+	        var $appendItemsToList;
+	        $("#addBtn").click(function() {
+	        	 	var bla = $("#item").val();
+	        	 	var dah = $("#itemDescription").val();
+	            $("#dialog ul").append(bla);
+	            $("#dialog ul").append(dah);
+	            $("#dialog ul").append("<br>");
+	            $("#dialog ul").append("<br>");
+	            items.push(bla);
+	            descriptions.push(dah);
+	        });
+	        
+	        $("#clearBtn").click(function() {
+	            $( "#dialog ul" ).empty();
+        		});
+	    });
+		
+		function assign (){
+			var tasks [];
+			for(var i=0; i<items.length(); i++){
+				var task = {
+					"name": items.get(i);
+					"description": descriptions.get(i);
+					"completed":0;
+					"id:" null;
+				}
+				tasks.push(task);
+			}
+			var taskreq = {
+				"type": "assign",
+				"tasks": []
+			};
+			
+			
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "./updateTasks", true);
+			xhttp.setRequestHeader("Content-type","application/json");
+			xhttp.send(JSON.stringify(taskreq));
+		}
+		
+		
+	</script>
+	
+	<!-- FOOTER SECTION - Before closing </body> tag -->
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	
 	<!-- Minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	
 	<!-- My script -->
 	<script> src="js/script.js" </script>
 	</body>
