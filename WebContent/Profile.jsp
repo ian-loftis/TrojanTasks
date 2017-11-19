@@ -105,7 +105,7 @@
   						</td>
    					</tr>
   				</table>
-  				<button id="leaveBtn"> Leave Group </button>
+  				<button id="leaveBtn" onClick="leaveGroup()"> Leave Group </button>
   				<br> 
   			<% } 	
   			 else { %>
