@@ -119,7 +119,8 @@ public class DBManager {
 				new Document("_id",email)
 				.append("password", password)
 				.append("name", name)
-				.append("groupid", "null"));
+				.append("groupid", "null")
+				.append("tasks", new BsonArray()));
     	
     	return true;
 		 
