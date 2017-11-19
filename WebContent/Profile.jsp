@@ -88,6 +88,7 @@
   				<table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
   					<tr> 
   						<td> <%=group.getName() %></td>	
+  						<td> <%=group.getGroupID() %> </td>
   					</tr>
   					<tr> 
   						<td> Members </td>
@@ -108,7 +109,9 @@
   				<br> 
   			<% } 	
   			 else { %>
-  			 	<table> 
+  			 <table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
+  			 </table>
+  			 	<table id="buttonTable"> 
   			 		<tr> 
 		  			 	<div data-role="main" class="ui-content">
 						    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Create Group</a>
@@ -147,7 +150,7 @@
   			
   			var groupName = document.getElementById("createInput").value;  			
   			var type = "create";
-  			var email = document.getElementById("emailElement").innerHTML;
+  			var email = "<%=user.getEmail() %>";
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&name=" + groupName, false);
    	 	 	xhttp.send();
@@ -156,7 +159,9 @@
    	 		if (response == "0") {
    	 			// fail
    	 		} else {
+   	 			console.log(response);
    	 			document.getElementById("groupTable").innerHTML = response;
+   	 			document.getElementById("buttonTable").innerHTML = "";
    	 		}
   		}
   		
@@ -164,7 +169,7 @@
   			
   			var groupID = document.getElementById("joinInput").value;
   			var type = "join";
-  			var email = document.getElementById("emailElement").innerHTML;
+  			var email = "<%=user.getEmail() %>";
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&ID=" + groupID, false);
    	 	 	xhttp.send();
@@ -174,6 +179,7 @@
    	 			// fail
    	 		} else {
    	 			document.getElementById("groupTable").innerHTML = response;
+   	 			document.getElementById("buttonTable").innerHTML = "";
    	 		}
   		}
   		
