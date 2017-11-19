@@ -108,6 +108,8 @@
   				<br> 
   			<% } 	
   			 else { %>
+  			 <table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
+  			 </table>
   			 	<table> 
   			 		<tr> 
 		  			 	<div data-role="main" class="ui-content">
@@ -147,7 +149,7 @@
   			
   			var groupName = document.getElementById("createInput").value;  			
   			var type = "create";
-  			var email = document.getElementById("emailElement").innerHTML;
+  			var email = "<%=user.getEmail() %>";
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&name=" + groupName, false);
    	 	 	xhttp.send();
@@ -156,6 +158,7 @@
    	 		if (response == "0") {
    	 			// fail
    	 		} else {
+   	 			console.log(response);
    	 			document.getElementById("groupTable").innerHTML = response;
    	 		}
   		}
@@ -164,7 +167,7 @@
   			
   			var groupID = document.getElementById("joinInput").value;
   			var type = "join";
-  			var email = document.getElementById("emailElement").innerHTML;
+  			var email = "<%=user.getEmail() %>";
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&ID=" + groupID, false);
    	 	 	xhttp.send();

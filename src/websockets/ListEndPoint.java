@@ -74,6 +74,7 @@ public class ListEndPoint {
 			s.add(this);
 			clients.put(message, s);
 		}
+		sendWhoOnline(groupid);
 		lock.unlock();
 	}
 	

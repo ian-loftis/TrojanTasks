@@ -149,15 +149,23 @@ public class DBManager {
 	}
 
     public String addUserToNewGroup(String userEmail,String groupName, HttpSession session) {
-		if(findById(userEmail,userCollection).getString("groupid") != "null" || groupName.length() == 0) {
+    	System.out.println(userEmail);
+		if(groupName.length() == 0) {
+			System.out.println(findById(userEmail,userCollection).getString("groupid") != "null");
+			System.out.println(groupName.length() == 0);
+			System.out.println("entered here");
 			return null;
 		}
 		ObjectId id = new ObjectId();
-		
+		BsonArray ba = new BsonArray();
+		ba.add(new BsonString(userEmail));
+
 		groupCollection.insertOne(new Document("name",groupName)
 				.append("_id", id)
-				.append("users", new BsonArray().add(new BsonString(userEmail))));		
+				.append("users", ba)
+				.append("lists", new BsonArray()));		
 		
+		System.out.println("hi");
 		session.setAttribute("Group", getGroup(id.toString()));
 		return id.toString();
 	}

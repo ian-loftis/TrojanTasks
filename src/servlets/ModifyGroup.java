@@ -41,7 +41,8 @@ public class ModifyGroup extends HttpServlet {
 			String groupid = request.getParameter("groupid");
 			success = dbManager.addUserToGroup(groupid,userEmail,request.getSession());
 		}else if(type.equals("create")) {
-			String gname = request.getParameter("gname");
+			String gname = request.getParameter("name");
+			System.out.println(gname);
 			success = dbManager.addUserToNewGroup(userEmail,gname,request.getSession());
 		}else if(type.equals("leave")) {
 			//success = dbManager.removeGroupFromUser(userEmail,request.getSession());
@@ -50,6 +51,7 @@ public class ModifyGroup extends HttpServlet {
 		if(success != null) {
 			print(response.getWriter(),success);
 		}else {
+			System.out.println("HI");
 			response.getWriter().println("0");
 		}
 	}
