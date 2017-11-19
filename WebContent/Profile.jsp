@@ -145,12 +145,11 @@
   	
   		function createGroup() {
   			
-  			
   			var groupName = document.getElementById("createInput").value;  			
   			var type = "create";
   			var email = document.getElementById("emailElement").innerHTML;
   			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString + "&name=" + groupName, false);
+			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&name=" + groupName, false);
    	 	 	xhttp.send();
    	 	 	
    	 		var response = xhttp.responseText; 
@@ -167,7 +166,7 @@
   			var type = "join";
   			var email = document.getElementById("emailElement").innerHTML;
   			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + itemString + "&ID=" + groupID, false);
+			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&ID=" + groupID, false);
    	 	 	xhttp.send();
    	 	 	
    	 		var response = xhttp.responseText; 
