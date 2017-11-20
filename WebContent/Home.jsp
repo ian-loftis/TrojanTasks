@@ -12,14 +12,53 @@
 <%@ page import="jsonObjects.CalendarUpdateRequest" %>
 <%@ page import="jsonObjects.RequestTask" %>
 
+<%@ page import="managers.DBManager" %>
+
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Map" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="java.util.Iterator" %>
 
+
+
 <% 
+
+	if ((session.getId() == null) || 
+			(session.getAttribute("User") == null) ||
+			(session.getAttribute("Group") == null))
+	{
+		request.getRequestDispatcher("Login.jsp").forward(request, response);
+		return;
+	}
+	DBManager dbm = DBManager.getInstance();
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
+	
+	User groupUser = null;
+	for(User user2: group.getUsers())
+	{
+		if(user2.getId() == user.getId())
+		{
+			groupUser = user2;
+		}
+	}
+	
+	if(groupUser != null)
+	{
+		System.out.println("\n\nSESSION USER LIST:");
+		for(Task t: user.getTasklist())
+		{
+			System.out.println("\tTask: " + t.getName() + " Completed: " + t.getCompleted());
+		}
+		
+		System.out.println("\n\nGROUP USER LIST:");
+		for(Task t: groupUser.getTasklist())
+		{
+			System.out.println("\tTask: " + t.getName() + " Completed: " + t.getCompleted());
+		}
+	}
+	
+	
 	Map<String, String> groupTasks = null; 
 	Map<String, String> completeGroupTasks = null; 
 	if (group != null) {
@@ -27,9 +66,11 @@
 		groupTasks = new HashMap<String, String>();
 		
 		// Fill map with group's tasks -- each task maps to a user 
+			System.out.println("HOME PAGE TASKS:");
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
+/* 				System.out.println("Task: " + userTasks.get(j).getName() + " Completed: " + userTasks.get(j).getCompleted()); */
 				if (userTasks.get(j).getCompleted() == true) { 
 					completeGroupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
 				} else {
@@ -68,10 +109,6 @@
 	    <!-- My stylesheet -->
 	    <link rel="stylesheet" href="css/styles.css">
 	    <title>Home</title>
-	    
-	    <script>
-	    		
-	    </script>
 	    
 	</head>
 	<body>
@@ -156,10 +193,11 @@
 	    		 	<tr>
 	    		 		<% 
 	    		 			// Check if task is complete 
-	    		 			System.out.println("Task: " + user.getTasklist().get(i).getName() + " Completed: " + user.getTasklist().get(i).getCompleted());
+	    		 			System.out.println("Task: " + user.getTasklist().get(i).getName() + " Completed: " + user.getTasklist().get(i).getCompleted() + " Eq: " + (user.getTasklist().get(i).getCompleted()==true));
 	    		 			if (user.getTasklist().get(i).getCompleted() == true) {
 	    		 				// If complete, add to completed task array
 	    		 				completeTasks.add(user.getTasklist().get(i));
+	    		 				System.out.println("Added task to copmplete");
 	    		 			}
 	    		 			else {
 	    		 				// If not complete, print with button 

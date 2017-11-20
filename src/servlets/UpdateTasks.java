@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -33,10 +34,22 @@ public class UpdateTasks extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	{
-		HttpSession session = request.getSession();
-		if(session == null || session.getId() == null)
+		HttpSession session = request.getSession();		
+		if(session.getId() == null ||
+				session.getAttribute("User") == null ||
+				session.getAttribute("Group") == null)
 		{
 			//forward to login page
+			try {
+				request.getRequestDispatcher("Login.jsp").forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
 		}
 		
 		User user = (User) session.getAttribute("User");
@@ -61,6 +74,12 @@ public class UpdateTasks extends HttpServlet{
 			System.out.println("Group: " + group.getName() + " ID: " + group.getGroupID());
 		}
 		
+		System.out.println("\nTasks:");
+		for(Task t: user.getTasklist())
+		{
+			System.out.println("Name: " + t.getName() + " ID: " + t.getID() + " Completed: " + t.getCompleted());
+			System.out.println("Desc: " + t.getDescription() + "\n");
+		}
 		
 		System.out.println("Post to update tasks");
 		//should check content type to ensure that it's json, but for now will forego in favor
@@ -73,18 +92,33 @@ public class UpdateTasks extends HttpServlet{
 			InputStreamReader isr = new InputStreamReader(sis);
 			Gson gson = new Gson();
 			
-			
 			UpdateTasksRequest utr;
 			utr = gson.fromJson(isr,UpdateTasksRequest.class);
 			System.out.println("Type: " + utr.getType());
-			System.out.println("Tasks: ");
+			System.out.println("Requested Tasks: ");
 			
 			ArrayList<Task> uTasks = new ArrayList<Task>();
+			ArrayList<Task> rTasks = new ArrayList<Task>();
 			for(RequestTask rt: utr.getTasks())
 			{
 				System.out.println("Name: " + rt.getName() + " ID: " + rt.getID() + " Completed: " + rt.getCompleted());
 				System.out.println("Desc: " + rt.getDescription() + "\n");
-				uTasks.add(new Task(rt.getName(),rt.getDescription(), rt.getID(), Boolean.valueOf(rt.getCompleted())));
+				System.out.println("String val: " + rt.getCompleted() + " vs bool val: " + Boolean.valueOf(rt.getCompleted()));
+				
+				boolean completed;
+				if(rt.getCompleted().equals("1"))
+					completed = true;
+				else
+					completed = false;
+				
+				for(Task task: user.getTasklist())
+				{
+					if(task.getID().equals(rt.getID()))
+					{
+						uTasks.add(task);
+					}
+					rTasks.add(task);
+				}
 			}
 			for(Task task: uTasks)
 			{
@@ -94,14 +128,13 @@ public class UpdateTasks extends HttpServlet{
 			
 			if(utr.getType().equalsIgnoreCase("assign"))
 			{
-				TaskManager tm = new TaskManager();
-				tm.assignTasks(group, uTasks);
 				//was the code when there was a different jsonObject class for tasks in requests,
 				//currently using the regular Task object and having the front end send
 				//complete information instead of accepting incomplete information
 				
 				//assign tasks to users
-				Map<String, List<Task>> nameToNew = tm.assignTasks(group, uTasks);
+				TaskManager tm = new TaskManager();
+				Map<String, List<Task>> nameToNew = tm.assignTasks(group, rTasks);
 				
 				//pass to a jsp to generate the results to return to the user
 				request.setAttribute("nameToNew", nameToNew);
@@ -109,12 +142,16 @@ public class UpdateTasks extends HttpServlet{
 			}
 			else if(utr.getType().equalsIgnoreCase("update"))
 			{
-				
 				TaskManager tm = new TaskManager();
 				if(!utr.getTasks().isEmpty())
 				{
 					tm.markTasks(user, uTasks);
 					tm.updateTasks(uTasks);
+				}
+				System.out.println("\n\nTasks after updating:");
+				for(Task t: user.getTasklist())
+				{
+					System.out.println("Task: " + t.getName() + " Completed: " + t.getCompleted());
 				}
 			}
 			else if(utr.getType().equalsIgnoreCase("remove"))

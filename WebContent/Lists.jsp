@@ -18,6 +18,14 @@
 <%@page import="java.util.Iterator" %>
 
 <%
+	if ((session.getId() == null) || 
+			(session.getAttribute("User") == null) ||
+			(session.getAttribute("Group") == null))
+	{
+		request.getRequestDispatcher("Login.jsp").forward(request, response);
+		return;
+	}
+
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
 	

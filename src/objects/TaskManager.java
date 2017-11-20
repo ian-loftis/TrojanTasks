@@ -41,12 +41,12 @@ public class TaskManager {
 		boolean success = dbm.markUserTaskAsDone(username, task.getID());
 		if(!success)
 		{
-			System.out.println("Unable to mark task: " + task.getName() + " id: " + task.getID());
+			System.out.println("Unable to mark task: " + task.getName() + " id: " + task.getID() + " completed: " + task.getCompleted());
 			System.out.println("For user: " + username);
 		}
 		else
 		{
-			System.out.println("Successfully marked task: " + task.getName() + " id: " + task.getID());
+			System.out.println("Successfully marked task: " + task.getName() + " id: " + task.getID() + " completed: " + task.getCompleted());
 			System.out.println("For user: " + username);
 		}
 	}
