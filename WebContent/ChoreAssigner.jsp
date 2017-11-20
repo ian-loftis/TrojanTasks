@@ -32,17 +32,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 	    <meta charset="UTF-8">
-	
 	    <!-- BOOTSTRAP HEAD SECTION -->
 	    <!-- IE Edge Meta Tag -->
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	
 	    <!-- Viewport -->
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	
 	    <!-- Minified CSS -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	
 	    <!-- Optional Theme -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">	
 	    <!-- My stylesheet -->
@@ -101,7 +97,9 @@
 		  <h2>Add Task</h2>
 		  <br> 
 		  <form name="taskForm">
+		  	  <label for="item"><b>Task Name:</b></label> <br />
 			  <input id="item" type="text" placeholder="Task Name"> 
+			  <label for="itemDescription"><b>Task Description:</b></label>
 			  <input id="itemDescription" type="text" width="100px" placeholder="Task Description">
 		  </form>
 		  <br>
@@ -112,8 +110,7 @@
 	  <section class="col-md-3">
 	  		<h2> Tasks </h2>
 	        <ul id="dialog" title="Add List" class="list-group">
-	            <ul id=listItem>
-	            </ul>     
+	            <ul id=listItem></ul>     
 	        </ul>
 	  </section>
 	</div>
