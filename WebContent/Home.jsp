@@ -29,31 +29,20 @@
 		request.getRequestDispatcher("Login.jsp").forward(request, response);
 		return;
 	}
+
 	DBManager dbm = DBManager.getInstance();
+	
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
 	
-	User groupUser = null;
-	for(User user2: group.getUsers())
+	if(group != null)
 	{
-		if(user2.getId() == user.getId())
+		group = dbm.getGroup(user.getGroupID());
+		if(group != null)
 		{
-			groupUser = user2;
-		}
-	}
-	
-	if(groupUser != null)
-	{
-		System.out.println("\n\nSESSION USER LIST:");
-		for(Task t: user.getTasklist())
-		{
-			System.out.println("\tTask: " + t.getName() + " Completed: " + t.getCompleted());
-		}
-		
-		System.out.println("\n\nGROUP USER LIST:");
-		for(Task t: groupUser.getTasklist())
-		{
-			System.out.println("\tTask: " + t.getName() + " Completed: " + t.getCompleted());
+			user = group.getUserForID(user.getEmail());
+			session.setAttribute("User",user);
+			session.setAttribute("Group",group);
 		}
 	}
 	

@@ -50,6 +50,7 @@ public class Group {
     
     public User getUserForID(String userID)
     {
+    		System.out.println("Trying to find " + userID);
     		for(User user: users)
     		{
     			if(user.getEmail().equals(userID))
