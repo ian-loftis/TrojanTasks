@@ -95,7 +95,7 @@
 	        	</div>
   		</nav>
 	</div>
-	Currently online: Alex, Natalie, Ian
+	<div id="peopleonline">Currently online: Alex, Natalie, Ian</div>
 	<div class="container">
 		<section class="col-md-6"> 
 	  	<h2> Current Lists</h2>
@@ -216,10 +216,15 @@
 			var socket;
 
 			socket = new WebSocket("ws://" + window.location.host + ep);
-
+			var m = "<%=group.getGroupID()%>,<%=user.getName()%>";
+			socket.onopen = function(event){
+				socket.send(m);
+			};
 			
 			socket.onmessage = function(message) {
-				//document.getElementById("mychat").innerHTML += message.data + "<br />";
+				var people = message.data;
+				people = people.slice(0, people.length - 1);
+				document.getElementById("peopleonline").innerHTML = "Currently Online: " + people;
 			}
 
 		})()

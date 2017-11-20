@@ -41,6 +41,7 @@ public class ListEndPoint {
 				thoseOnline += ep.name;
 				thoseOnline += ",";
 			}
+			System.out.println(thoseOnline);
 			for(ListEndPoint ep: eps) {
 				try {
 					ep.session.getBasicRemote().sendText(thoseOnline);
@@ -64,6 +65,7 @@ public class ListEndPoint {
 	@OnMessage
 	public void onMessage(String message, Session session) {
 		lock.lock();
+		System.out.println(message);
 		int fcomma = message.indexOf(',');
 		groupid = message.substring(0,fcomma);
 		name = message.substring(fcomma + 1);
@@ -72,7 +74,7 @@ public class ListEndPoint {
 		}else {
 			ArrayList<ListEndPoint> s = new ArrayList<ListEndPoint>();
 			s.add(this);
-			clients.put(message, s);
+			clients.put(groupid, s);
 		}
 		sendWhoOnline(groupid);
 		lock.unlock();
@@ -81,7 +83,13 @@ public class ListEndPoint {
 	@OnClose
 	public void close(Session session) {
 		lock.lock();
-		boolean removed = clients.get(groupid).remove(this);
+		boolean removed = false;
+		if(groupid != null && clients.containsKey(groupid)) {
+			removed = clients.get(groupid).remove(this);
+		}else {
+			
+		}
+		
 		System.out.println("closing connection. removed = " + removed);
 		lock.unlock();
 	}
