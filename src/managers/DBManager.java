@@ -106,7 +106,7 @@ public class DBManager {
     	}
     	userCollection.updateOne(
     			new Document("_id", username).append("tasks._id", new ObjectId(taskId)), 
-    			new Document("$set",new Document("complete",true)));
+    			new Document("$set",new Document("tasks.$.complete",true)));
     	
     	return true;
     }
