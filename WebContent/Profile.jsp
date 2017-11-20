@@ -157,6 +157,13 @@
   		</div>
   	</div>
   	
+  	<style> 
+  		table {
+  			padding: 10px; 
+  		}
+  	
+  	</style>
+  	
   	<script> 
   	
 	  	function toggle_visibility() {
@@ -165,6 +172,8 @@
 	           e.style.display = 'none';
 	        else
 	           e.style.display = 'block';
+	        
+	        location.reload(true);
 	    }
 	  	
   		function createGroup() {
