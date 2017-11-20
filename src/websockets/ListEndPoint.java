@@ -36,6 +36,13 @@ public class ListEndPoint {
 		if(clients.containsKey(groupid)) {
 			ArrayList<ListEndPoint> eps = clients.get(groupid);
 			//generates list of who's online
+			System.out.println(eps.size());
+			for (Map.Entry<String,ArrayList<ListEndPoint> > entry : clients.entrySet()) {
+				  String key = entry.getKey();
+				  System.out.println("PEOPLE " + key + " " + entry.getValue().size());
+				  //String value = entry.getValue();
+				  // do stuff
+				}
 			String thoseOnline = new String();
 			for(ListEndPoint ep : eps) {
 				thoseOnline += ep.name;
@@ -69,8 +76,8 @@ public class ListEndPoint {
 		int fcomma = message.indexOf(',');
 		groupid = message.substring(0,fcomma);
 		name = message.substring(fcomma + 1);
-		if(clients.containsKey(message)) {
-			clients.get(message).add(this);
+		if(clients.containsKey(groupid)) {
+			clients.get(groupid).add(this);
 		}else {
 			ArrayList<ListEndPoint> s = new ArrayList<ListEndPoint>();
 			s.add(this);
@@ -89,7 +96,7 @@ public class ListEndPoint {
 		}else {
 			
 		}
-		
+		sendWhoOnline(groupid);
 		System.out.println("closing connection. removed = " + removed);
 		lock.unlock();
 	}
