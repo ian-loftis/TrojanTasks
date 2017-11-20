@@ -67,7 +67,7 @@ public class ModifyGroup extends HttpServlet {
 	private void print(PrintWriter pw, String id) {
 		Group g = DBManager.getInstance().getGroup(id);
 		pw.println(String.format("<tr> \r\n" + 
-				"			<td> %s></td>	\r\n" + 
+				"			<td> %s</td>	\r\n" + 
 				"		</tr>\r\n" + 
 				"		<tr> \r\n" + 
 				"			<td> Members </td><td> ", g.getName()));

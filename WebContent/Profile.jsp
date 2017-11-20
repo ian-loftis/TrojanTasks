@@ -161,7 +161,7 @@
    	 		} else {
    	 			console.log(response);
    	 			document.getElementById("groupTable").innerHTML = response;
-   	 			document.getElementById("buttonTable").innerHTML = "";
+   	 			document.getElementById("buttonTable").style.visibility='hidden' ;
    	 		}
   		}
   		
@@ -179,7 +179,8 @@
    	 			// fail
    	 		} else {
    	 			document.getElementById("groupTable").innerHTML = response;
-   	 			document.getElementById("buttonTable").innerHTML = "";
+   	 			var table = document.getElementById("buttonTable");
+   	 			if (table) table.parentNode.removeChild(table);
    	 		}
   		}
   		

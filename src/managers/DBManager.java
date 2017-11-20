@@ -163,7 +163,11 @@ public class DBManager {
 		groupCollection.insertOne(new Document("name",groupName)
 				.append("_id", id)
 				.append("users", ba)
-				.append("lists", new BsonArray()));		
+				.append("lists", new BsonArray()));
+		
+		userCollection.updateOne(
+				new Document("_id",userEmail), 
+				new Document("$set",new Document("groupid",id.toString())));
 		
 		System.out.println("hi");
 		session.setAttribute("Group", getGroup(id.toString()));
