@@ -3,7 +3,10 @@ package servlets;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.MultipartConfig;
@@ -15,8 +18,10 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import jsonObjects.RequestTask;
 import jsonObjects.UpdateTasksRequest;
 import objects.Group;
+import objects.Task;
 import objects.TaskManager;
 import objects.User;
 
@@ -34,16 +39,26 @@ public class UpdateTasks extends HttpServlet{
 			//forward to login page
 		}
 		
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("User");
 		if(user == null)
 		{
-			//do something to handle
+			//do something to handle, probably just forward to login
+			System.out.println("Null user attribute");
+		}
+		else
+		{
+			System.out.println("User: " + user.getName() + " ID: " + user.getId());
 		}
 		
-		Group group = (Group) session.getAttribute("group");
+		Group group = (Group) session.getAttribute("Group");
 		if(group == null)
 		{
-			//do something to handle
+			//do something to handle, probably forward to login
+			System.out.println("Null group attribute");
+		}
+		else
+		{
+			System.out.println("Group: " + group.getName() + " ID: " + group.getGroupID());
 		}
 		
 		
@@ -64,27 +79,42 @@ public class UpdateTasks extends HttpServlet{
 			System.out.println("Type: " + utr.getType());
 			System.out.println("Tasks: ");
 			
+			ArrayList<Task> uTasks = new ArrayList<Task>();
+			for(RequestTask rt: utr.getTasks())
+			{
+				System.out.println("Name: " + rt.getName() + " ID: " + rt.getID() + " Completed: " + rt.getCompleted());
+				System.out.println("Desc: " + rt.getDescription() + "\n");
+				uTasks.add(new Task(rt.getName(),rt.getDescription(), rt.getID(), Boolean.valueOf(rt.getCompleted())));
+			}
+			for(Task task: uTasks)
+			{
+				System.out.println("Name: " + task.getName() + " ID: " + task.getID() + " Completed: " + task.getCompleted());
+				System.out.println("Desc: " + task.getDescription() + "\n");
+			}
+			
 			if(utr.getType().equalsIgnoreCase("assign"))
 			{
 				TaskManager tm = new TaskManager();
-				tm.assignTasks(group, utr.getTasks());
+				tm.assignTasks(group, uTasks);
 				//was the code when there was a different jsonObject class for tasks in requests,
 				//currently using the regular Task object and having the front end send
 				//complete information instead of accepting incomplete information
-//				ArrayList<Task> tasksToAssign = new ArrayList<Task>();
-//				for(RequestTask rt: utr.getTasks())
-//				{
-//					Task task = new Task(rt.getName(), rt.getDescription(),null);
-//					tasksToAssign.add(task);
-//				}
-//				tm.assignTasks(group, tasksToAssign);
+				
+				//assign tasks to users
+				Map<String, List<Task>> nameToNew = tm.assignTasks(group, uTasks);
+				
+				//pass to a jsp to generate the results to return to the user
+				request.setAttribute("nameToNew", nameToNew);
+				//TODO: next need to pass off to jsp
 			}
 			else if(utr.getType().equalsIgnoreCase("update"))
 			{
+				
 				TaskManager tm = new TaskManager();
 				if(!utr.getTasks().isEmpty())
 				{
-					tm.updateTasks(utr.getTasks());
+					tm.markTasks(user, uTasks);
+					tm.updateTasks(uTasks);
 				}
 			}
 			else if(utr.getType().equalsIgnoreCase("remove"))
@@ -92,21 +122,10 @@ public class UpdateTasks extends HttpServlet{
 				TaskManager tm = new TaskManager();
 				if(!utr.getTasks().isEmpty())
 				{
-					tm.removeTasks(utr.getTasks());
+					tm.removeTasksFromUser(user, uTasks);
 				}
 			}
-			else if(utr.getType().equalsIgnoreCase(""))
-			{
-				
-			}
 			
-			
-//			System.out.println("input:");
-//			System.out.println(sis.toString());
-//			while(!sis.isFinished())
-//			{
-//				System.out.print((char)(sis.read()));
-//			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

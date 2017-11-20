@@ -2,14 +2,12 @@ package jsonObjects;
 
 import java.util.List;
 
-import objects.Task;
-
 public class UpdateTasksRequest 
 {
 	String type;
-	List<Task> tasks;
+	List<RequestTask> tasks;
 	
-	public UpdateTasksRequest(String type, List<Task> tasks)
+	public UpdateTasksRequest(String type, List<RequestTask> tasks)
 	{
 		this.type = type;
 		this.tasks = tasks;
@@ -25,12 +23,12 @@ public class UpdateTasksRequest
 		return type;
 	}
 	
-	public void setTasks(List<Task> tasks)
+	public void setTasks(List<RequestTask> tasks)
 	{
 		this.tasks = tasks;
 	}
 	
-	public List<Task> getTasks()
+	public List<RequestTask> getTasks()
 	{
 		return tasks;
 	}

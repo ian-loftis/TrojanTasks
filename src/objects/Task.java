@@ -20,6 +20,14 @@ public class Task {
     		this.completed = false;
     }
     
+    public Task(String name, String description, String ID, boolean completed)
+    {
+    		this.name = name;
+    		this.description = description;
+    		this.ID = ID;
+    		this.completed = completed;
+    }
+    
     public String getName() {
         return name;
     }
