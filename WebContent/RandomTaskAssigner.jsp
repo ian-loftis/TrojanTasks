@@ -46,22 +46,116 @@
 				}
 				document.getElementById("peopleDisplay").innerHTML = pd;
 			}
-			function assign(){
+/* 			function assign(){
 				shuffle(taskList);
 				var myMap = new Map();
 				var status = "";
 				/* while(taskList.length > 0){
 					//do the code below
 				} */
+			/* 	for(var j=0; j<peopleList.length; j++){
+					var people = [];
+					var person = {
+						"name": peopleList[j];	
+						"tasks": [];
+					}
+					people.push(person);
+					//var mytasks = [];
+				
+					var task = taskList[0]; //gets first task in array
+					people[j].tasks.push(task);
+					//mytasks.push(task);
+					
+					taskList.shift(); //deletes first task in array */
+					
+					/* while(taskList.length > 0){
+						for(var j=0; j<peopleList.length; j++){
+							var person = {
+									"name": peopleList[j];	
+									"tasks": [];
+							}
+							people.push(person);
+							var task = taskList[0];
+							people[j].tasks.push(task);
+							taskList.shift();
+						}
+					}
+					
+					for (var i=0; i<people.length; i++){
+						var assignment = people[i] + ": " + people[i].tasks;
+						myMap.set(people[i], assignment);
+						if(i<people.length-1){
+							status += ", ";
+						}
+					} */
+					//var assignment = person + ": " + mytasks;
+					//var assignment = person + ": " + task;
+					/* myMap.set(person, assignment);
+					status += myMap.get(person);
+					if(j < peopleList.length-1){
+						status += ", ";
+					} */
+				//}
+				/* document.getElementById("assignments").innerHTML = status;
+			} */ 
+			
+			
+			
+			/* function assign(){
+				shuffle(taskList);
+				var myMap = new Map();
+				var status = "";
 				for(var j=0; j<peopleList.length; j++){
 					var person = peopleList[j];	
-					var task = taskList[0]; //gets first task in array
-					taskList.shift(); //deletes first task in array
+					var task = taskList[0]; 
+					taskList.shift(); 
 					var assignment = person + ": " + task;
 					myMap.set(person, assignment);
 					status += myMap.get(person);
 					if(j < peopleList.length-1){
 						status += ", ";
+					}
+				}
+				document.getElementById("assignments").innerHTML = status;
+			} */
+			
+			function assign(){
+				shuffle(taskList);
+				shuffle(peopleList);
+				//var myMap = new Map();
+				var status = "";
+				var people = [];
+
+				for(var j=0; j<peopleList.length; j++){
+					var person = {
+						"name": peopleList[j],
+						"tasks": []
+					}
+					people.push(person);
+				}
+				
+				var i = 0;
+				while(taskList.length > 0){ 
+					var task = taskList[0];
+					people[i].tasks.push(task); 
+					taskList.shift();
+					i = (i+1)%people.length;
+					
+				}
+				
+				for (var j=0; j<people.length; j++){
+					var concat = "";
+					for (var l=0; l<people[j].tasks.length; l++){
+						concat += people[j].tasks[l];
+						if(l < people[j].tasks.length-1){
+							concat += ", ";
+						}
+						
+					}
+					var assignment = people[j].name + ": " + concat;
+					status += assignment;
+					if(j<people.length-1){
+						status += "   -------   ";
 					}
 				}
 				document.getElementById("assignments").innerHTML = status;
@@ -116,7 +210,7 @@
        <p><span id="assignments"></span></p>
        </div>
     </section>
-    
+   <p> <span id="debug"></span></p>
 	</div>
 	</body>
 </html>
