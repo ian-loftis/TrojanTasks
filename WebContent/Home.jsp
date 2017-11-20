@@ -68,6 +68,11 @@
 	    <!-- My stylesheet -->
 	    <link rel="stylesheet" href="css/styles.css">
 	    <title>Home</title>
+	    
+	    <script>
+	    		
+	    </script>
+	    
 	</head>
 	<body>
 	<div class="services container">
@@ -93,10 +98,43 @@
   	</div>
   	
   	<script> 
+  		var idToTask = {};
+  		function reloadList()
+  		{
+  			
+  		}
+  	
   		function complete() {
   			xhttp.open("GET", "updateTasks?searchData=" + document.searchForm.staff.value, false);
    	 	 	xhttp.send();
   		}
+  		
+  		function updateTask(task)
+		{
+			console.log("Name: " + task.name);
+			console.log("ID: " + task.value);
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				console.log("AJAX update task state change");
+			}
+			
+			var taskreq = {
+							"type": "update",
+							"tasks": []
+						};
+			var jsonTaskObj = {"name":"test", "description":"desc", "ID":0, "completed":0};
+			
+			jsonTaskObj = idToTask[task.value];
+			jsonTaskObj["completed"] = "1";
+			console.log(jsonTaskObj);
+			taskreq["tasks"].push(jsonTaskObj);
+			
+			
+			xhttp.open("POST","./updateTasks",true);
+			xhttp.setRequestHeader("Content-type","application/json");
+			xhttp.send(JSON.stringify(taskreq));
+		}
+  		
   	</script> 
   		
 	<div class="container">
@@ -106,18 +144,19 @@
 	    <thead>
 	      <tr>
 	        <th>Task</th>
-	        <th> </th>
+	        <th> Complete?</th>
 	      </tr>
 	    </thead>
 		    <tbody> 
 		    <%  
 		    ArrayList<Task> completeTasks = new ArrayList<>();
 		    if (user != null ) { 
-		    		for (int i = 0; i < user.getTasklist().size(); i++) { 
+		    		for (int i = 0; i < user.getTasklist().size(); i++) {
 		    %>
 	    		 	<tr>
 	    		 		<% 
 	    		 			// Check if task is complete 
+	    		 			System.out.println("Task: " + user.getTasklist().get(i).getName() + " Completed: " + user.getTasklist().get(i).getCompleted());
 	    		 			if (user.getTasklist().get(i).getCompleted() == true) {
 	    		 				// If complete, add to completed task array
 	    		 				completeTasks.add(user.getTasklist().get(i));
@@ -127,8 +166,22 @@
 	    		 				%><td> <%= user.getTasklist().get(i).getName() %></td> <% 
 	    		 				// FIGURE OUT HOW TO SET TASK=COMPLETE %>
 	    				        <td> 
-	    					       <form name="completeForm">
-	    						  <input id="taskButton" type="radio" name="task" onclick="complete()">
+	    							<form name="completeForm">
+	    						  		<input class="taskButton" 
+	    						  			type="radio" 
+	    						  			value= "<%=user.getTasklist().get(i).getName() %>" 
+	    						  			name="<%=user.getTasklist().get(i).getName() %>" 
+	    						  			onclick="updateTask(this);">
+	    						  		<script>
+	    						  			idToTask["<%=user.getTasklist().get(i).getName()%>"] = {
+	    						  					"name": "<%=user.getTasklist().get(i).getName()%>",
+	    						  					"description": "<%=user.getTasklist().get(i).getDescription()%>",
+	    						  					"ID":"<%=user.getTasklist().get(i).getID()%>",
+	    						  					"completed":"<%=user.getTasklist().get(i).getCompleted()%>"
+	    						  					};
+	    						  			console.log(idToTask);
+	    						  			
+	    						  		</script>
 	    							</form>
 	    						</td>
 	    		 			<% } %> 
