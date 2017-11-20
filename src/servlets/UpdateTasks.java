@@ -36,8 +36,7 @@ public class UpdateTasks extends HttpServlet{
 	{
 		HttpSession session = request.getSession();		
 		if(session.getId() == null ||
-				session.getAttribute("User") == null ||
-				session.getAttribute("Group") == null)
+				session.getAttribute("User") == null)
 		{
 			//forward to login page
 			try {

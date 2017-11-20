@@ -47,4 +47,18 @@ public class Group {
     public void setCalendars(ArrayList<Calendar> calendars) {
         this.calendars = calendars;
     }
+    
+    public User getUserForID(String userID)
+    {
+    		for(User user: users)
+    		{
+    			if(user.getEmail().equals(userID))
+    			{
+    				return user;
+    			}
+    		}
+    		return null;
+    
+    }
+    
 }

@@ -31,14 +31,20 @@ public class AuthorizeUser extends HttpServlet{
 		String pwd = request.getParameter("pwd");
 		User u = manager.verify(username, pwd);
 		if(u != null) {
-			if(u.getGroupID().equals("null")) {
+			
+			if(u.getGroupID().equals("null")) 
+			{
 				request.getSession().setAttribute("Group", null);
-			}else {
+				request.getSession().setAttribute("User", u);
+			}
+			else 
+			{
 				Group g = manager.getGroup(u.getGroupID());
 				request.getSession().setAttribute("Group",g);
+				request.getSession().setAttribute("User", g.getUserForID(u.getEmail()));
 			}
 			
-			request.getSession().setAttribute("User", u);
+			
 			
 			try {
 				response.getWriter().println("1");

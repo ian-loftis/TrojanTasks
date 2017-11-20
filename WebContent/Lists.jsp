@@ -19,8 +19,7 @@
 
 <%
 	if ((session.getId() == null) || 
-			(session.getAttribute("User") == null) ||
-			(session.getAttribute("Group") == null))
+			(session.getAttribute("User") == null))
 	{
 		request.getRequestDispatcher("Login.jsp").forward(request, response);
 		return;
