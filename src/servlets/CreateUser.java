@@ -33,7 +33,7 @@ public class CreateUser extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		String name = request.getParameter("name");
-		String password = request.getParameter("pw");		
+		String password = request.getParameter("pw");	
 		
 		boolean success = dbManager.createUser(name,email,password);
 		
