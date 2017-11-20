@@ -71,7 +71,6 @@
   				<ul class="nav navbar-nav">
 	            <li> <a href="Home.jsp"> Home </a> </li>
 	            <li class="active"> <a href="Profile.jsp"> Profile </a> </li>
-	            <li> <a href="Calendar.jsp"> Calendar </a> </li>
 	            <li> <a href="ChoreAssigner.jsp"> Chore Assigner </a> </li>
 	            <li> <a href="Lists.jsp"> Lists </a> </li>
         			</ul>
@@ -87,7 +86,7 @@
 				</div>
 				<br> 
   				<div class="row">
-  					<section class="col-md-4">
+  					<section class="col-md-12">
   						<h2> <% if (user != null) { %> <%=user.getName() %> <% } %></h2>
   						<h3 id="emailElement"><% if (user != null) { %> <%=user.getEmail() %> <% } %> </h3>
   					</section>
@@ -96,10 +95,15 @@
   			<section class="col-md-8">
   				<h2> Groups </h2>
   				<% if (group != null) { %>
-  				<table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
+  				<table id="groupTable" BORDER="5" BORDERCOLOR="black"> 
+  					<style> 
+  						table#groupTable {
+  							padding: 10px; 
+  						}
+  					</style> 
   					<tr> 
-  						<td> <%=group.getName() %></td>	
-  						<td> <%=group.getGroupID() %> </td>
+  						<td> Group Name </td>	
+  						<td> <%=group.getName() %> </td>
   					</tr>
   					<tr> 
   						<td> Members </td>
@@ -115,6 +119,10 @@
   							<% } 
   							} %> 
   						</td>
+   					</tr>
+   					<tr> 
+   						<td> Group ID </td>
+   						<td> <%=group.getGroupID() %> </td>
    					</tr>
   				</table>
   				<br> 
