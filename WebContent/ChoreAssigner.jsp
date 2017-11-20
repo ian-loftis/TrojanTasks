@@ -63,7 +63,6 @@
   				<ul class="nav navbar-nav">
 	            <li> <a href="Home.jsp"> Home </a> </li>
 	            <li> <a href="Profile.jsp"> Profile </a> </li>
-	            <li> <a href="Calendar.jsp"> Calendar </a> </li>
 	            <li class="active"> <a href="ChoreAssigner.jsp"> Chore Assigner </a> </li>
 	            <li> <a href="Lists.jsp"> Lists </a> </li>
         			</ul>
