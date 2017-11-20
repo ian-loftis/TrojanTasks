@@ -137,6 +137,34 @@ public class TaskManager {
     		}
     }
     
+    public boolean removeTasksFromGroup(Group group, List<Task> tasks)
+    {
+    		System.out.println("Removing multiple tasks");
+    		for(Task task: tasks)
+    		{
+    			for(User user: group.getUsers())
+    			{
+    				Task target = null;
+    				for(Task st: user.getTasklist())
+    				{
+    					if(st.getID().equals(st.getID()))
+    					{
+    						target = st;
+    					}
+    				}
+    				if(target != null)
+    				{
+    					System.out.println("Removing task " + task.getName() + "," + task.getID() + " from " + user.getEmail());
+    					removeTaskFromUser(user,task);
+    				}
+    			}
+    		}
+    		
+    		return true;
+    }
+    
+    
+    
 //    public void removeTasks(List<Task> tasks)
 //    {
 //    		boolean success = false;
@@ -150,6 +178,7 @@ public class TaskManager {
     
     public Map<String,List<Task>> assignTasks(Group group, List<Task> tasks)
     {
+    		System.out.println("Assigning " + tasks.size() + " tasks to group");
     		List<User> users = group.getUsers();
     		Collections.shuffle(tasks);
     		int maxTasks = users.get(0).getTasklist().size();
@@ -191,14 +220,16 @@ public class TaskManager {
     		for(Task task: tasks)
     		{
     			user = users.get(i);
-    			boolean completed = dbm.addTaskToUser(user.getName(), task);
+    			boolean completed = dbm.addTaskToUser(user.getEmail(), task);
     			if(!completed)
     			{
     				success = false;
+    				System.out.println("unable to assign task");
     			}
     			else
     			{
     				nameToAssigned.get(user.getName()).add(task);
+    				System.out.println("successfully assigned task");
     			}
     			
     			user.assignTask(task);
@@ -218,6 +249,8 @@ public class TaskManager {
     		
     		return nameToAssigned;
     }
+    
+    
     
 }
 

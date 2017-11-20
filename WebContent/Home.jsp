@@ -26,6 +26,10 @@
 	if ((session.getId() == null) || 
 			(session.getAttribute("User") == null))
 	{
+		if(session.getId() == null)
+			System.out.println("Redirecting because session is expired");
+		else
+			System.out.println("Redirection because user attribute is null");
 		request.getRequestDispatcher("Login.jsp").forward(request, response);
 		return;
 	}
@@ -37,9 +41,11 @@
 	
 	if(group != null)
 	{
+		System.out.println("Group wasn't null, reloading group from database");
 		group = dbm.getGroup(user.getGroupID());
 		if(group != null)
 		{
+			System.out.println("db group wasn't null, reloading user from group");
 			user = group.getUserForID(user.getEmail());
 			session.setAttribute("User",user);
 			session.setAttribute("Group",group);
@@ -52,20 +58,35 @@
 	if (group != null) {
 		ArrayList<User> groupUsers = group.getUsers();
 		groupTasks = new HashMap<String, String>();
+		completeGroupTasks = new HashMap<String,String>();
 		
 		// Fill map with group's tasks -- each task maps to a user 
 			System.out.println("HOME PAGE TASKS:");
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
-/* 				System.out.println("Task: " + userTasks.get(j).getName() + " Completed: " + userTasks.get(j).getCompleted()); */
+ 				System.out.println("Task: " + userTasks.get(j).getName() + " Completed: " + userTasks.get(j).getCompleted());
 				if (userTasks.get(j).getCompleted() == true) { 
 					completeGroupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
 				} else {
 					groupTasks.put(userTasks.get(j).getName(), groupUsers.get(i).getName());
 				}
+				%>
+				<script>
+				var idToTask = {};
+	  			idToTask["<%=userTasks.get(i).getName()%>"] = {
+	  					"name": "<%=userTasks.get(i).getName()%>",
+	  					"description": "<%=userTasks.get(i).getDescription()%>",
+	  					"ID":"<%=userTasks.get(i).getID()%>",
+	  					"completed":"<%=userTasks.get(i).getCompleted()%>"
+	  					};
+	  			console.log(idToTask);
+	  			
+	  			</script>
+	  			<%
 			}
 		}
+		System.out.println("END HOME PAGE TASKS");
 	}
 
 %> 
@@ -114,7 +135,6 @@
   				<ul class="nav navbar-nav">
 	            <li class="active"> <a href="Home.jsp"> Home </a> </li>
 	            <li> <a href="Profile.jsp"> Profile </a> </li>
-	            <li> <a href="Calendar.jsp"> Calendar </a> </li>
 	            <li> <a href="ChoreAssigner.jsp"> Chore Assigner </a> </li>
 	            <li> <a href="Lists.jsp"> Lists </a> </li>
         			</ul>
@@ -123,7 +143,6 @@
   	</div>
   	
   	<script> 
-  		var idToTask = {};
   		function reloadList()
   		{
   			
@@ -159,6 +178,32 @@
 			xhttp.setRequestHeader("Content-type","application/json");
 			xhttp.send(JSON.stringify(taskreq));
 		}
+  		
+  		function removeTask(task)
+  		{
+  			var xhttp = new XMLHttpRequest();
+  			xhttp.onreadystatechange = function() 
+  			{
+  				console.log("AJAX remove task state change");
+  			}
+  			
+  			var taskreq = {
+					"type": "remove",
+					"tasks": []
+				};
+			var jsonTaskObj = {"name":"test", "description":"desc", "ID":0, "completed":0};
+  			
+  			jsonTaskObj = idToTask[task.value];
+  			
+  			taskreq["tasks"].push(jsonTaskObj);
+  			
+  			console.log("Requesting removal of task: ");
+  			console.log(taskreq);
+  			
+  			xhttp.open("POST", "./updateTasks",true);
+  			xhttp.setRequestHeader("Content-type", "application/json");
+  			xhttp.send(JSON.stringify(taskreq));
+  		}
   		
   	</script> 
   		
@@ -231,6 +276,7 @@
 	        <th>Task</th>
 	        <th>Assigned To: </th>
 	        <th>Complete? </th>
+	        <th>Remove? </th>
 	      </tr>
 	    </thead>
 		    <tbody> 
@@ -242,6 +288,15 @@
 			        <td> <%= pair.getKey() %></td>
 			        <td> <%= pair.getValue() %> </td>
 			        <td> No </td>
+			        <td>
+			        		<form name="removeForm">
+	    						  		<input class="taskButton" 
+	    						  			type="radio" 
+	    						  			value= "<%=pair.getKey() %>" 
+	    						  			name="<%=pair.getKey() %>" 
+	    						  			onclick="removeTask(this);">
+	    							</form>
+			        </td>
 		      	</tr>
 		      	<% } %> <!-- Loop through map -->
 		    	<% }%> <!-- if statement -->	
@@ -253,6 +308,15 @@
 			        <td> <%= pair.getKey() %></td>
 			        <td> <%= pair.getValue() %> </td>
 			        <td> Yes </td>
+			        <td>
+			        		<form name="removeForm">
+	    						  		<input class="taskButton" 
+	    						  			type="radio" 
+	    						  			value= "<%=pair.getKey() %>" 
+	    						  			name="<%=pair.getKey() %>" 
+	    						  			onclick="removeTask(this);">
+	    							</form>
+			        </td>
 	      		</tr>
 	      		<% } %> <!-- Loop through map -->
 	    		<% }%> <!-- if statement -->

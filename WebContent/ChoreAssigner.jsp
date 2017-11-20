@@ -110,7 +110,7 @@
 		  </form>
 		  <br>
 		  <button id="addBtn">Add Task</button>
-		  <button id="clearBtn">Clear</button> <br> <br> 
+		  <button id="clearBtn" onclick="clear();">Clear</button> <br> <br> 
 		  <button id="assignBtn" onClick="assign()">Assign Tasks</button>
 	  </section>
 	  <section class="col-md-3">
@@ -119,6 +119,10 @@
 	            <ul id=listItem></ul>     
 	        </ul>
 	  </section>
+	</div>
+	
+	<br>
+	<div id="results">
 	</div>
 	
 	<script> 
@@ -156,14 +160,22 @@
 			}
 			var taskreq = {
 				"type": "assign",
-				"tasks": []
+				"tasks": tasks
 			};
 			
 			
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("POST", "./updateTasks", true);
 			xhttp.setRequestHeader("Content-type","application/json");
+			xhttp.onreadystatechange =  function(){
+				if(this.responseText.trim().length > 0){
+					document.getElementById("results").innerHTML = this.responseText;
+				}
+			};
 			xhttp.send(JSON.stringify(taskreq));
+		}
+		
+		function clear(){
 		}
 		
 		
