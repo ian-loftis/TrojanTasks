@@ -47,6 +47,9 @@
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">	
 	    <!-- My stylesheet -->
 	    <link rel="stylesheet" href="css/styles.css">
+	    	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	    <title>Chore Assigner</title>
 	</head>
 	<body>
@@ -86,9 +89,9 @@
 	    </thead>
 		    <tbody id="members"> 
 				<% for (int i = 0; i < groupUsers.size(); i++) { %>
-			      	<tr>
+			      	<td>
 			      		<%= groupUsers.get(i).getName()  %>
-			      	</tr>
+			      	</td>
 			      <%} %>  
 		    </tbody>
 	  </table>
@@ -124,6 +127,7 @@
 	        	 	var bla = $("#item").val();
 	        	 	var dah = $("#itemDescription").val();
 	            $("#dialog ul").append(bla);
+	            $("#dialog ul").append(": ");
 	            $("#dialog ul").append(dah);
 	            $("#dialog ul").append("<br>");
 	            $("#dialog ul").append("<br>");
@@ -137,13 +141,13 @@
 	    });
 		
 		function assign (){
-			var tasks [];
+			var tasks = [];
 			for(var i=0; i<items.length(); i++){
 				var task = {
-					"name": items.get(i);
-					"description": descriptions.get(i);
-					"completed":0;
-					"id:" null;
+					"name": items.get(i),
+					"description": descriptions.get(i),
+					"completed":0,
+					"id:": null,
 				}
 				tasks.push(task);
 			}
