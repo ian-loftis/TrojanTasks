@@ -95,7 +95,7 @@
 	        	</div>
   		</nav>
 	</div>
-	
+	Currently online: Alex, Natalie, Ian
 	<div class="container">
 		<section class="col-md-6"> 
 	  	<h2> Current Lists</h2>
@@ -208,6 +208,21 @@
 	 			document.getElementById("listNames").innerHTML = response;
 	 		}
 		}
+		
+		
+		
+		(function(){
+			var ep = "/TrojanTasks/listendpoint";
+			var socket;
+
+			socket = new WebSocket("ws://" + window.location.host + ep);
+
+			
+			socket.onmessage = function(message) {
+				//document.getElementById("mychat").innerHTML += message.data + "<br />";
+			}
+
+		})()
 	</script>
 
 	
