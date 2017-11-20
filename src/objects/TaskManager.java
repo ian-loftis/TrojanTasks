@@ -8,12 +8,47 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import managers.DBManager;
+
 public class TaskManager {
 	
 	public void updateTask(Task task)
 	{
 		String id = task.getID();
 		//call database method and pass in new task object for the task id
+		DBManager dbm = DBManager.getInstance();
+		
+	}
+	
+	public void markTasks(User user, List<Task> tasks)
+	{
+		for(Task task: tasks)
+		{
+			markTask(user.getEmail(), task);
+		}
+	}
+	
+	public void markTask(User user, Task task)
+	{
+		markTask(user.getEmail(),task);
+	}
+	
+	public void markTask(String username, Task task)
+	{	
+		task.setCompleted(true);
+		DBManager dbm = DBManager.getInstance();
+		dbm.markUserTaskAsDone(username, task.getID());
+		boolean success = dbm.markUserTaskAsDone(username, task.getID());
+		if(!success)
+		{
+			System.out.println("Unable to mark task: " + task.getName() + " id: " + task.getID());
+			System.out.println("For user: " + username);
+		}
+		else
+		{
+			System.out.println("Successfully marked task: " + task.getName() + " id: " + task.getID());
+			System.out.println("For user: " + username);
+		}
 	}
 	
 	public void updateTasks(List<Task> tasks)
@@ -24,7 +59,7 @@ public class TaskManager {
 		}
 	}
 	
-	public Map<String,List<Task>> randomAnonymousAssignmetn(List<String> users, List<Task> tasks)
+	public Map<String,List<Task>> randomAnonymousAssignment(List<String> users, List<Task> tasks)
 	{
 		Map<String,List<Task>> nameToTasks = new HashMap<String,List<Task>>();
 		for(String user: users)
@@ -77,26 +112,53 @@ public class TaskManager {
     		user.assignTask(task);
     }
     
-    public void removeTask(Task task)
+    public void removeTaskFromUser(User user, Task task)
     {
     		//probably just call some databasemanager method to remove the task
+    		removeTaskFromUser(user.getEmail(), task);
     }
     
-    public void removeTasks(List<Task> tasks)
+    public void removeTaskFromUser(String username, Task task)
+    {
+    		DBManager dbm = DBManager.getInstance();
+    		dbm.removeTaskFromUser(username, task.getID());
+    }
+    
+    public void removeTasksFromUser(User user, List<Task> tasks)
+    {
+	    	removeTasksFromUser(user.getEmail(), tasks);
+    }
+    
+    public void removeTasksFromUser(String username, List<Task> tasks)
     {
     		for(Task task: tasks)
     		{
-    			removeTask(task);
+    			removeTaskFromUser(username,task);
     		}
     }
     
-    public void assignTasks(Group group, List<Task> tasks)
+//    public void removeTasks(List<Task> tasks)
+//    {
+//    		boolean success = false;
+//    		boolean totalSuccess = false;
+//    		DBManager dbm = DBManager.getInstance();
+//    		for(Task task: tasks)
+//    		{
+//    			removeTask(task);
+//    		}
+//    }
+    
+    public Map<String,List<Task>> assignTasks(Group group, List<Task> tasks)
     {
     		List<User> users = group.getUsers();
     		Collections.shuffle(tasks);
     		int maxTasks = users.get(0).getTasklist().size();
+    		
+    		Map<String,List<Task>> nameToAssigned = new HashMap<String,List<Task>>(); 
+    		
     		for(User user: users)
     		{
+    			nameToAssigned.put(user.getName(), new ArrayList<Task>());
     			if(user.getTasklist().size() > maxTasks)
     			{
     				maxTasks = user.getTasklist().size();
@@ -119,12 +181,27 @@ public class TaskManager {
 				}
     		});
     		
+    		DBManager dbm = DBManager.getInstance();
+    		
     		//goes throught the tasks and assigns them starting with the first user in the list
     		//if the index is the last in the array, 
     		int i = 0;
+    		User user;
+    		boolean success = true;
     		for(Task task: tasks)
     		{
-    			users.get(i).assignTask(task);
+    			user = users.get(i);
+    			boolean completed = dbm.addTaskToUser(user.getName(), task);
+    			if(!completed)
+    			{
+    				success = false;
+    			}
+    			else
+    			{
+    				nameToAssigned.get(user.getName()).add(task);
+    			}
+    			
+    			user.assignTask(task);
     			if(i == users.size() - 1)
     			{
     				i = 0;
@@ -138,6 +215,8 @@ public class TaskManager {
     				i++;
     			}
     		}
+    		
+    		return nameToAssigned;
     }
     
 }

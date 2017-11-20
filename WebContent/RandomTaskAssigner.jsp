@@ -14,6 +14,9 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- Optional Theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script>
 			var taskList = [];
 			var peopleList = [];
@@ -46,25 +49,51 @@
 				}
 				document.getElementById("peopleDisplay").innerHTML = pd;
 			}
+			
 			function assign(){
 				shuffle(taskList);
-				var myMap = new Map();
+				shuffle(peopleList);
 				var status = "";
-				/* while(taskList.length > 0){
-					//do the code below
-				} */
+				var people = [];
+
 				for(var j=0; j<peopleList.length; j++){
-					var person = peopleList[j];	
-					var task = taskList[0]; //gets first task in array
-					taskList.shift(); //deletes first task in array
-					var assignment = person + ": " + task;
-					myMap.set(person, assignment);
-					status += myMap.get(person);
-					if(j < peopleList.length-1){
-						status += ", ";
+					var person = {
+						"name": peopleList[j],
+						"tasks": []
 					}
+					people.push(person);
 				}
-				document.getElementById("assignments").innerHTML = status;
+				
+				var i = 0;
+				while(taskList.length > 0){ 
+					var task = taskList[0];
+					people[i].tasks.push(task); 
+					taskList.shift();
+					i = (i+1)%people.length;
+					
+				}
+				
+				for (var j=0; j<people.length; j++){
+					var concat = "";
+					for (var l=0; l<people[j].tasks.length; l++){
+						concat += people[j].tasks[l];
+						if(l < people[j].tasks.length-1){
+							concat += ", ";
+						}
+						
+					}
+					var assignment = people[j].name + ": " + concat;
+				
+					$("#dialog ul").append(assignment);
+					$("#dialog ul").append("<br>");
+					$("#dialog ul").append("<br>");
+					
+					/* status += assignment;
+					if(j<people.length-1){
+						status += "   -------   ";
+					} */
+				}
+				//document.getElementById("assignments").innerHTML = status;
 			}
 			function shuffle(a) {
 			    var j, x, i;
@@ -76,6 +105,12 @@
 			    }
 			}
 		</script>
+		<style>
+			ul {
+				font-weight: bold;
+				color: green;
+			}
+		</style>
 	</head>
 <body>
 	<div class="services container">
@@ -117,6 +152,14 @@
        </div>
     </section>
     
+     <section class="col-md-3">
+	  		<h2> Assignments </h2>
+	        <ul id="dialog" title="Display Assignments" class="list-group">
+	            <ul id=listItem>
+	            </ul>     
+	        </ul>
+	  </section>
+	  
 	</div>
 	</body>
 </html>

@@ -12,6 +12,7 @@
 <% 
 	User user = (User)session.getAttribute("User");
 	Group group = (Group)session.getAttribute("Group");
+
 %> 
 
 <!DOCTYPE html>
@@ -72,7 +73,9 @@
   		<div class="row"> 
   			<section class="col-md-4">	
 	  			<div class="img-holder">
-				    <img alt="Responsive image" class="avatar width-full rounded-2" height="230" src="<% if (user != null) { %> <%=user.getImage() %> <% } %>" width="230">
+	  				<% if (user.getImage() != null) { %>
+				    		<img alt="Responsive image" class="avatar width-full rounded-2" height="230" src="<% if (user != null) { %> <%=user.getImage() %> <% } %>" width="230">
+					<% } %>
 				</div>
 				<br> 
   				<div class="row">
@@ -111,34 +114,36 @@
   			 else { %>
   			 <table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
   			 </table>
-  			 	<table id="buttonTable"> 
-  			 		<tr> 
-		  			 	<div data-role="main" class="ui-content">
-						    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Create Group</a>
-						    <div data-role="popup" id="myPopup" class="ui-content" style="min-width:250px;">
-						      <form>
-						        <div>
-						          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
-						          <input id="createInput" type="text" name="user" placeholder="Name">
-						        </div>
-						      </form>
-						      <button type="button" onClick="createGroup()"> Create </button>
-					    </div>
-					</tr>
-					<tr> 
-		  			 	<div data-role="main" class="ui-content">
-						    <a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Join Group</a>
-						    <div data-role="popup" id="myPopup2" class="ui-content" style="min-width:250px;">
-						      <form>
-						        <div>
-						          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
-						          <input id="joinInput" type="text" name="user" placeholder="ID">
-						        </div>
-						      </form>
-						      <button type="button" onClick="joinGroup()"> Join </button>
-					    </div>
-					</tr>
-			    </table>
+  			 	<div id="buttons"> 
+	  			 	<table id="buttonTable"> 
+	  			 		<tr> 
+			  			 	<div data-role="main" class="ui-content">
+							    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Create Group</a>
+							    <div data-role="popup" id="myPopup" class="ui-content" style="min-width:250px;">
+							      <form>
+							        <div>
+							          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
+							          <input id="createInput" type="text" name="user" placeholder="Name">
+							        </div>
+							      </form>
+							      <button type="button" onClick="createGroup(); toggle_visibility();"> Create </button>
+						    </div>
+						</tr>
+						<tr> 
+			  			 	<div data-role="main" class="ui-content">
+							    <a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-left">Join Group</a>
+							    <div data-role="popup" id="myPopup2" class="ui-content" style="min-width:250px;">
+							      <form>
+							        <div>
+							          <label for="usrnm" class="ui-hidden-accessible">Name:</label>
+							          <input id="joinInput" type="text" name="user" placeholder="ID">
+							        </div>
+							      </form>
+							      <button type="button" onClick="joinGroup()"> Join </button>
+						    </div>
+						</tr>
+				    </table>
+				</div>
   			<% } %>
   			</section>
   		</div>
@@ -146,11 +151,21 @@
   	
   	<script> 
   	
+	  	function toggle_visibility() {
+	        var e = document.getElementById("buttonTable");
+	        if(e.style.display == 'block')
+	           e.style.display = 'none';
+	        else
+	           e.style.display = 'block';
+	    }
+	  	
   		function createGroup() {
   			
   			var groupName = document.getElementById("createInput").value;  			
   			var type = "create";
-  			var email = "<%=user.getEmail() %>";
+  			<% if (user != null) { %> 
+  				var email = "<%=user.getEmail() %>";
+  			<%}%>
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&name=" + groupName, false);
    	 	 	xhttp.send();
@@ -169,7 +184,9 @@
   			
   			var groupID = document.getElementById("joinInput").value;
   			var type = "join";
-  			var email = "<%=user.getEmail() %>";
+  			<% if (user != null) { %> 
+				var email = "<%=user.getEmail() %>";
+			<%}%>
   			var xhttp = new XMLHttpRequest();
 			xhttp.open("GET", "ModifyGroup?req=" + type + "&email=" + email + "&ID=" + groupID, false);
    	 	 	xhttp.send();

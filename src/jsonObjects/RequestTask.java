@@ -3,8 +3,8 @@ package jsonObjects;
 public class RequestTask {
 	String name;
 	String description;
-	Integer ID;
-	boolean completed;
+	String ID;
+	String completed;
 	
 	public void setName(String name)
 	{
@@ -24,5 +24,25 @@ public class RequestTask {
 	public String getDescription()
 	{
 		return description;
+	}
+	
+	public void setID(String ID)
+	{
+		this.ID = ID;
+	}
+	
+	public String getID()
+	{
+		return ID;
+	}
+	
+	public void setCompleted(String completed)
+	{
+		this.completed = completed;
+	}
+	
+	public String getCompleted()
+	{
+		return completed;
 	}
 }
