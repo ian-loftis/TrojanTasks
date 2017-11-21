@@ -67,11 +67,13 @@ public class UpdateTasks extends HttpServlet{
 		{
 			//do something to handle, probably forward to login
 			System.out.println("Null group attribute");
+			return;
 		}
 		else
 		{
 			System.out.println("Group: " + group.getName() + " ID: " + group.getGroupID());
 		}
+		
 		
 		System.out.println("\nTasks:");
 		for(Task t: user.getTasklist())
@@ -98,6 +100,7 @@ public class UpdateTasks extends HttpServlet{
 			
 			ArrayList<Task> uTasks = new ArrayList<Task>();
 			ArrayList<Task> rTasks = new ArrayList<Task>();
+			System.out.println("Request Tasks Size: " + utr.getTasks());
 			for(RequestTask rt: utr.getTasks())
 			{
 				System.out.println("Name: " + rt.getName() + " ID: " + rt.getID() + " Completed: " + rt.getCompleted());
@@ -110,13 +113,21 @@ public class UpdateTasks extends HttpServlet{
 				else
 					completed = false;
 				
+				boolean inUser = false;
 				for(Task task: user.getTasklist())
 				{
+					if(task == null)
+						System.out.println("null task what");
 					if(task.getID().equals(rt.getID()))
 					{
 						uTasks.add(task);
+						rTasks.add(task);
+						inUser = true;
 					}
-					rTasks.add(task);
+				}
+				if(!inUser)
+				{
+					rTasks.add(new Task(rt.getName(), rt.getDescription(), rt.getID(), completed));
 				}
 			}
 			for(Task task: uTasks)
@@ -138,6 +149,15 @@ public class UpdateTasks extends HttpServlet{
 				//pass to a jsp to generate the results to return to the user
 				request.setAttribute("nameToNew", nameToNew);
 				//TODO: next need to pass off to jsp
+				try {
+					request.getRequestDispatcher("AssignmentResult.jsp").forward(request, response);
+				} catch (ServletException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else if(utr.getType().equalsIgnoreCase("update"))
 			{

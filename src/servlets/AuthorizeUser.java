@@ -30,15 +30,18 @@ public class AuthorizeUser extends HttpServlet{
 		String username = request.getParameter("uname");
 		String pwd = request.getParameter("pwd");
 		User u = manager.verify(username, pwd);
+		
 		if(u != null) {
 			
 			if(u.getGroupID().equals("null")) 
 			{
+				System.out.println("User group is null, setting user attr to user and group attr to null");
 				request.getSession().setAttribute("Group", null);
 				request.getSession().setAttribute("User", u);
 			}
 			else 
 			{
+				System.out.println("User group is not null, setting user to obj in " + u.getGroupID());
 				Group g = manager.getGroup(u.getGroupID());
 				request.getSession().setAttribute("Group",g);
 				request.getSession().setAttribute("User", g.getUserForID(u.getEmail()));
@@ -53,7 +56,6 @@ public class AuthorizeUser extends HttpServlet{
 				e.printStackTrace();
 			}
 		}else {
-			
 			try {
 				response.getWriter().println("0");
 			} catch (IOException e) {

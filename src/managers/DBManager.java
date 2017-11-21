@@ -1,6 +1,5 @@
 package managers;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -303,8 +302,9 @@ public class DBManager {
         	System.out.println(task.getString("name"));
         	System.out.println(task.getString("description"));
         	System.out.println(task.get("_id").toString());
+        	System.out.println(task.get("complete").toString());
         	result.getTasklist().add(new Task(task.getString("name"),task.getString("description")
-                    ,task.get("_id").toString()));
+                    ,task.get("_id").toString(), task.getBoolean("complete")));
         }
     	return result;
     }
