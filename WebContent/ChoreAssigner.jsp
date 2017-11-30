@@ -140,6 +140,8 @@
 	            $("#dialog ul").append("<br>");
 	            items.push(bla);
 	            descriptions.push(dah);
+	            $("#item").val("");
+	            $("#itemDescription").val("");
 	        });
 	        
 	        $("#clearBtn").click(function() {
@@ -170,12 +172,14 @@
 			xhttp.onreadystatechange =  function(){
 				if(this.responseText.trim().length > 0){
 					document.getElementById("results").innerHTML = this.responseText;
+					clear();
 				}
 			};
 			xhttp.send(JSON.stringify(taskreq));
 		}
 		
 		function clear(){
+			console.log("on clear");
 		}
 		
 		

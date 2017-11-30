@@ -6,20 +6,20 @@
 <%
 	if(request.getAttribute("nameToNew") == null)
 		return;
-	Map<String,String> nameToNew = (Map<String,String>)request.getAttribute("nameToNew");
+	Map<String,List<Task> > nameToNew = (Map<String,List<Task> >)request.getAttribute("nameToNew");
 %>
 <table>
 	<tr>
 		<th>Task</th>
 		<th>Assignee</th>
 	</tr>
-	<%for(String name: nameToNew.keySet()) {%>
-		for(String task: nameToNew.get(name)) {
+	<%for(String name: nameToNew.keySet()) {
+		for(Task task: nameToNew.get(name)) { %>
 			<tr>
 			<td><%=name %></td>
-			<td><%=task %></td>
+			<td><%=task.getName() %></td>
 			</tr>
-		}
-	<%} %>
+		<%}
+	} %>
 	
 </table>

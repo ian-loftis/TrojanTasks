@@ -118,7 +118,9 @@ public class UpdateTasks extends HttpServlet{
 				{
 					if(task == null)
 						System.out.println("null task what");
-					if(task.getID().equals(rt.getID()))
+					if(task.getID() == null)
+						System.out.println("null id how even");
+					else if(task.getID().equals(rt.getID()))
 					{
 						uTasks.add(task);
 						rTasks.add(task);
