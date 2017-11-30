@@ -33,6 +33,7 @@ public class AuthorizeUser extends HttpServlet{
 		
 		if(u != null) {
 			
+			request.getSession().setMaxInactiveInterval(600);
 			if(u.getGroupID().equals("null")) 
 			{
 				System.out.println("User group is null, setting user attr to user and group attr to null");

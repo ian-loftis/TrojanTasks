@@ -169,6 +169,7 @@
 	        
 	        $("#clearBtn").click(function() {
 	            $( "#dialog ul" ).empty();
+	            items = [];
         		});
 	    });
 		
