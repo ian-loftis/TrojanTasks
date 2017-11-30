@@ -71,7 +71,6 @@
   				<ul class="nav navbar-nav">
 	            <li> <a href="Home.jsp"> Home </a> </li>
 	            <li class="active"> <a href="Profile.jsp"> Profile </a> </li>
-	            <li> <a href="Calendar.jsp"> Calendar </a> </li>
 	            <li> <a href="ChoreAssigner.jsp"> Chore Assigner </a> </li>
 	            <li> <a href="Lists.jsp"> Lists </a> </li>
         			</ul>
@@ -94,9 +93,9 @@
   				</div>
   			</section>
   			<section class="col-md-8">
-  				<h2> Groups </h2>
+  				<h2> Group </h2>
   				<% if (group != null) { %>
-  				<table id="groupTable" BORDER="10" BORDERCOLOR="red" > 
+  				<table id="groupTable" BORDER="10" BORDERCOLOR="red"> 
   					<tr> 
   						<td> <%=group.getName() %></td>	
   						<td> <%=group.getGroupID() %> </td>

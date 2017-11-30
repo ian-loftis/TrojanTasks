@@ -128,6 +128,7 @@ public class DBManager {
     
     
     public String addUserToGroup(String groupid, String userEmail, HttpSession session) {
+    	System.out.println(groupid);
 		if(!ObjectId.isValid(groupid) || findByOId(groupid,groupCollection) == null
 				|| findById(userEmail,userCollection) == null) {
 			return null;

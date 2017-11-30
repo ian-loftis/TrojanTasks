@@ -37,8 +37,11 @@ public class ModifyGroup extends HttpServlet {
 		DBManager dbManager = DBManager.getInstance();
 	
 		String success = null;
+		
 		if(type.equals("join")) {
-			String groupid = request.getParameter("groupid");
+			
+			String groupid = request.getParameter("ID");
+			System.out.println("in modify group servlet " + type + userEmail +groupid);
 			success = dbManager.addUserToGroup(groupid,userEmail,request.getSession());
 		}else if(type.equals("create")) {
 			String gname = request.getParameter("name");

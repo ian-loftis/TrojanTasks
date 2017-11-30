@@ -74,11 +74,11 @@
 				%>
 				<script>
 				var idToTask = {};
-	  			idToTask["<%=userTasks.get(i).getName()%>"] = {
-	  					"name": "<%=userTasks.get(i).getName()%>",
-	  					"description": "<%=userTasks.get(i).getDescription()%>",
-	  					"ID":"<%=userTasks.get(i).getID()%>",
-	  					"completed":"<%=userTasks.get(i).getCompleted()%>"
+	  			idToTask["<%=userTasks.get(j).getName()%>"] = {
+	  					"name": "<%=userTasks.get(j).getName()%>",
+	  					"description": "<%=userTasks.get(j).getDescription()%>",
+	  					"ID":"<%=userTasks.get(j).getID()%>",
+	  					"completed":"<%=userTasks.get(j).getCompleted()%>"
 	  					};
 	  			console.log(idToTask);
 	  			

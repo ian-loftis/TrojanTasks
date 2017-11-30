@@ -169,7 +169,11 @@
 	        
 	        $("#clearBtn").click(function() {
 	            $( "#dialog ul" ).empty();
+<<<<<<< Updated upstream
 	            items = [];
+=======
+	           
+>>>>>>> Stashed changes
         		});
 	    });
 		
