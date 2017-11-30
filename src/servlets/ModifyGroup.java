@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 
 import managers.DBManager;
 import objects.Group;
@@ -40,7 +39,6 @@ public class ModifyGroup extends HttpServlet {
 		String success = null;
 		
 		if(type.equals("join")) {
-			
 			String groupid = request.getParameter("ID");
 			System.out.println("in modify group servlet " + type + userEmail +groupid);
 			success = dbManager.addUserToGroup(groupid,userEmail,request.getSession());
