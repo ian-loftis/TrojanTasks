@@ -142,14 +142,29 @@ public class DBManager {
 				Filters.eq("_id",new ObjectId(groupid)), 
 				new Document("$addToSet",new Document("users",userEmail)));
 		
+		Group g = getGroup(groupid);
+		User correctUser = null;
+		if(g != null) {
+			List<User> users = g.getUsers();
+			for(User u : users) {
+				if(u.getEmail().equals(userEmail)) {
+					correctUser = u;
+				}
+				System.out.println("WHAT WE NEED HERE " + u.getName());
+				System.out.println("WHAT WE NEED HERE " + u.getGroupID());
+			}
+		}else {
+			System.out.println("group is null :(((");
+		}
 		
 		session.setAttribute("Group", getGroup(groupid));
+		session.setAttribute("User", correctUser);
 	
 		return groupid;
 	}
 
     public String addUserToNewGroup(String userEmail,String groupName, HttpSession session) {
-    	System.out.println(userEmail);
+    	System.out.println("IS IT HERE " + userEmail);
 		if(groupName.length() == 0) {
 			System.out.println(findById(userEmail,userCollection).getString("groupid") != "null");
 			System.out.println(groupName.length() == 0);
@@ -170,6 +185,7 @@ public class DBManager {
 				new Document("$set",new Document("groupid",id.toString())));
 		
 		System.out.println("hi");
+		
 		session.setAttribute("Group", getGroup(id.toString()));
 		return id.toString();
 	}

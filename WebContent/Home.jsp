@@ -42,6 +42,8 @@
 	if(group != null)
 	{
 		System.out.println("Group wasn't null, reloading group from database");
+		System.out.println(user.getGroupID());
+		
 		group = dbm.getGroup(user.getGroupID());
 		if(group != null)
 		{
@@ -49,13 +51,17 @@
 			user = group.getUserForID(user.getEmail());
 			session.setAttribute("User",user);
 			session.setAttribute("Group",group);
+			
+		}else{
+			System.out.println("working");
 		}
 	}
 	
-	
+	System.out.println("Why is it here ");
 	Map<String, String> groupTasks = null; 
 	Map<String, String> completeGroupTasks = null; 
 	if (group != null) {
+		System.out.println("Why is it here2 ");
 		ArrayList<User> groupUsers = group.getUsers();
 		groupTasks = new HashMap<String, String>();
 		completeGroupTasks = new HashMap<String,String>();
@@ -63,6 +69,7 @@
 		// Fill map with group's tasks -- each task maps to a user 
 			System.out.println("HOME PAGE TASKS:");
 		%><script>var idToTask = {};</script> <%
+		System.out.println("populating tasks " + groupUsers.size());
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
