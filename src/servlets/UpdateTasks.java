@@ -177,10 +177,27 @@ public class UpdateTasks extends HttpServlet{
 			}
 			else if(utr.getType().equalsIgnoreCase("remove"))
 			{
+				
 				TaskManager tm = new TaskManager();
 				if(!utr.getTasks().isEmpty())
 				{
 					tm.removeTasksFromUser(user, uTasks);
+				}
+				for(Task task: rTasks)
+				{
+					for(User u: group.getUsers())
+					{
+						if(!u.getEmail().equalsIgnoreCase(user.getEmail()))
+						{
+							for(Task userTask: u.getTasklist())
+							{
+								if(userTask.getID().equals(task.getID()))
+								{
+									tm.removeTaskFromUser(u, userTask);
+								}
+							}
+						}
+					}
 				}
 			}
 			

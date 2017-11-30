@@ -100,7 +100,7 @@
 	        	</div>
   		</nav>
 	</div>
-	<div id="peopleonline">Currently online: Alex, Natalie, Ian</div>
+	<div id="peopleonline" style="margin-left:75px">Currently online: Alex, Natalie, Ian</div>
 	<div class="container">
 		<section class="col-md-6"> 
 	  	<h2> Current Lists</h2>
@@ -139,7 +139,7 @@
 		  <h2>Add List</h2>
 		  <br> 
 		  <form name="listForm">
-			  <input name="name" type="text" placeholder="List Name"> </br> </br> 
+			  <input id="name" name="name" type="text" placeholder="List Name"> </br> </br> 
 			  <input id="item" type="text" placeholder="Item Name"> 
 		  </form>
 		  <br>
@@ -160,20 +160,17 @@
 		$(document).ready(function(){
 	        var $appendItemsToList;
 	        $("#addBtn").click(function() {
-	        	 	var bla = $("#item").val();
-	            $("#dialog ul").append(bla);
-	            $("#dialog ul").append("<br>");
-	            $("#dialog ul").append("<br>");
+	        	 var bla = $("#item").val();
+	            $("#dialog").append("<li style=\"margin-left:10px\">" + bla + "</li>");
+	            //$("#dialog ul").append("<br>");
+	            //$("#dialog ul").append("<br>");
 	            items.push(bla);
+	            console.log("pushing " + bla);
 	        });
 	        
 	        $("#clearBtn").click(function() {
-	            $( "#dialog ul" ).empty();
-<<<<<<< Updated upstream
-	            items = [];
-=======
-	           
->>>>>>> Stashed changes
+	            $( "#dialog" ).empty();
+				items=[];
         		});
 	    });
 		
@@ -196,6 +193,9 @@
    	 			// fail
    	 		} else {
    	 			document.getElementById("listNames").innerHTML = response;
+   	 			document.getElementById("dialog").innerHTML = "";
+   	 			document.getElementById("item").value = "";
+   	 			document.getElementById("name").value = "";
    	 		}
 		}
 		

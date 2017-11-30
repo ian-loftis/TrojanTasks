@@ -95,14 +95,18 @@
   			<section class="col-md-8">
   				<h2> Group </h2>
   				<% if (group != null) { %>
-  				<table id="groupTable" BORDER="10" BORDERCOLOR="red"> 
+  				<table id="groupTable" style="border: solid black 2px;"> 
   					<tr> 
-  						<td> <%=group.getName() %></td>	
-  						<td> <%=group.getGroupID() %> </td>
+  						<td style="border: solid black 2px; padding-left: 5px; padding-right: 5px; padding-top: 2px; padding-bottom:2px"> <%=group.getName() %></td>	
+  						<td style="border: solid black 2px; padding-left: 5px; padding-right: 5px; padding-top: 2px; padding-bottom:2px"> <%=group.getGroupID() %> </td>
   					</tr>
   					<tr> 
-  						<td> Members </td>
-  						<td> 
+  						<td style="border: solid black 2px; 
+  									padding-left: 5px; 
+  									padding-right: 5px; 
+  									padding-top: 2px; 
+  									padding-bottom:2px"> Members </td>
+  						<td style="border: solid black 2px; padding-left: 5px; padding-right: 5px; padding-top: 2px; padding-bottom:2px"> 
   						<% ArrayList<User> users = new ArrayList<User>(); %>
   						<% if (group != null) { 
   							users = group.getUsers();

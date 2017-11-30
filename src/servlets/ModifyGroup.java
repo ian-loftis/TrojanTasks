@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
 import managers.DBManager;
 import objects.Group;
@@ -53,6 +54,9 @@ public class ModifyGroup extends HttpServlet {
 		
 		if(success != null) {
 			print(response.getWriter(),success);
+//			Group g = dbManager.getInstance().getGroup(userEmail);
+//			request.getSession().setAttribute("Group",g);
+//			request.getSession().setAttribute("User",g.getUserForID(userEmail));
 		}else {
 			System.out.println("HI");
 			response.getWriter().println("0");

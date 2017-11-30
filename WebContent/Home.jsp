@@ -62,6 +62,7 @@
 		
 		// Fill map with group's tasks -- each task maps to a user 
 			System.out.println("HOME PAGE TASKS:");
+		%><script>var idToTask = {};</script> <%
 		for (int i = 0; i < groupUsers.size(); i++) {
 			ArrayList<Task> userTasks = groupUsers.get(i).getTasklist();
 			for (int j = 0; j < userTasks.size(); j++) {
@@ -73,7 +74,6 @@
 				}
 				%>
 				<script>
-				var idToTask = {};
 	  			idToTask["<%=userTasks.get(j).getName()%>"] = {
 	  					"name": "<%=userTasks.get(j).getName()%>",
 	  					"description": "<%=userTasks.get(j).getDescription()%>",
@@ -243,7 +243,7 @@
 	    						  			value= "<%=user.getTasklist().get(i).getName() %>" 
 	    						  			name="<%=user.getTasklist().get(i).getName() %>" 
 	    						  			onclick="updateTask(this);">
-	    						  		<script>
+	    						  		<!--<script>
 	    						  			idToTask["<%=user.getTasklist().get(i).getName()%>"] = {
 	    						  					"name": "<%=user.getTasklist().get(i).getName()%>",
 	    						  					"description": "<%=user.getTasklist().get(i).getDescription()%>",
@@ -252,7 +252,7 @@
 	    						  					};
 	    						  			console.log(idToTask);
 	    						  			
-	    						  		</script>
+	    						  		</script>-->
 	    							</form>
 	    						</td>
 	    		 			<% } %> 
